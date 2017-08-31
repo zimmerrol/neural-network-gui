@@ -5,13 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="clr-namespace:NNGui.Views"
         xmlns:local="clr-namespace:NNGui"
+        xmlns:cv="clr-namespace:NNGui.Converters"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:ln="clr-namespace:NNGui.Data.Links"
         mc:Ignorable="d"
         Title="Add Layer..." Height="120" Width="300">
 
     <Window.Resources>
-        <local:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
+        <cv:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
         <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="LinkTypeEnumValues">
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="ln:LinkType" />

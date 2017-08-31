@@ -9,6 +9,7 @@
         xmlns:pm="clr-namespace:NNGui.Data.Parameters"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:dd="urn:gong-wpf-dragdrop"
+        xmlns:cv="clr-namespace:NNGui.Converters"
         mc:Ignorable="d"
         Title="MainWindow" Height="650" Width="525">
 
@@ -25,7 +26,8 @@
     </Window.DataContext>
 
     <Window.Resources>
-        <local:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
+        <cv:IntTupleConverter x:Key="IntTupleConverter" />
+        <cv:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
         <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="ActivationFunctionEnumValues">
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="pm:ActivationFunction" />
@@ -190,8 +192,8 @@
                                             </Style.Triggers>
                                         </Style>
                                     </Border.Style>
+                                   
                                     <StackPanel Width="175px" Margin="5,0">
-
                                         <StackPanel x:Name="ParentStackPanel">
                                             <Grid Margin="0 2">
                                                 <Grid.ColumnDefinitions>
@@ -229,8 +231,8 @@
                                                                 </Grid.ColumnDefinitions>
                                                                 <TextBlock Text="Name:" Foreground="#222222" FontSize="11" VerticalAlignment="Bottom"/>
                                                                 <Button Grid.Column="1" Content="x" FontSize="12" Foreground="White" Template="{StaticResource DeleteButtonTemplate}"
-                                                            Style="{StaticResource DeleteButtonStyle}" Command="local:Commands.RemoveChainLinkCommand"
-                                                            CommandParameter="{Binding }"/>
+                                                                        Style="{StaticResource DeleteButtonStyle}" Command="local:Commands.RemoveChainLinkCommand"
+                                                                        CommandParameter="{Binding }"/> 
                                                             </Grid>
                                                             <TextBox Grid.Row="1" Margin="4 0" Text="{Binding Name, Mode=OneWay, NotifyOnSourceUpdated=True}" />
                                                             <TextBlock Grid.Row="2" Text="ID:" Margin="0 4 0 2" Foreground="#222" FontSize="11" VerticalAlignment="Bottom"/>
@@ -264,7 +266,6 @@
                                                                             </ListBox>
                                                                         </Grid>
                                                                     </DataTemplate>
-
                                                                     <DataTemplate DataType="{x:Type pm:InputDataParameter}">
                                                                         <Grid Margin="0 2">
                                                                             <Grid.RowDefinitions>
@@ -282,7 +283,6 @@
                                                                             </ComboBox>
                                                                         </Grid>
                                                                     </DataTemplate>
-
                                                                     <DataTemplate DataType="{x:Type pm:DoubleParameter}">
                                                                         <Grid Margin="0 2">
                                                                             <Grid.ColumnDefinitions>
@@ -293,6 +293,16 @@
                                                                             <TextBox Grid.Column="1" Text="{Binding Value, Mode=TwoWay}" />
                                                                         </Grid>
                                                                     </DataTemplate>
+                                                                    <DataTemplate DataType="{x:Type pm:IntTuple1DParameter}">
+                                                                        <Grid Margin="0 2">
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition Width="80px"/>
+                                                                                <ColumnDefinition />
+                                                                            </Grid.ColumnDefinitions>
+                                                                            <Label Content="{Binding Name, Mode=OneWay}" />
+                                                                            <TextBox Grid.Column="1" Text="{Binding Value, Mode=TwoWay, Converter={StaticResource IntTupleConverter}}" />
+                                                                        </Grid>
+                                                                    </DataTemplate>
                                                                     <DataTemplate DataType="{x:Type pm:IntTuple2DParameter}">
                                                                         <Grid Margin="0 2">
                                                                             <Grid.ColumnDefinitions>
@@ -300,7 +310,27 @@
                                                                                 <ColumnDefinition />
                                                                             </Grid.ColumnDefinitions>
                                                                             <Label Content="{Binding Name, Mode=OneWay}" />
-                                                                            <TextBox Grid.Column="1" Text="{Binding Value, Mode=TwoWay}" />
+                                                                            <TextBox Grid.Column="1" Text="{Binding Value, Mode=TwoWay, Converter={StaticResource IntTupleConverter}}" />
+                                                                        </Grid>
+                                                                    </DataTemplate>
+                                                                    <DataTemplate DataType="{x:Type pm:IntTuple3DParameter}">
+                                                                        <Grid Margin="0 2">
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition Width="80px"/>
+                                                                                <ColumnDefinition />
+                                                                            </Grid.ColumnDefinitions>
+                                                                            <Label Content="{Binding Name, Mode=OneWay}" />
+                                                                            <TextBox Grid.Column="1" Text="{Binding Value, Mode=TwoWay, Converter={StaticResource IntTupleConverter}}" />
+                                                                        </Grid>
+                                                                    </DataTemplate>
+                                                                    <DataTemplate DataType="{x:Type pm:IntTuple4DParameter}">
+                                                                        <Grid Margin="0 2">
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition Width="80px"/>
+                                                                                <ColumnDefinition />
+                                                                            </Grid.ColumnDefinitions>
+                                                                            <Label Content="{Binding Name, Mode=OneWay}" />
+                                                                            <TextBox Grid.Column="1" Text="{Binding Value, Mode=TwoWay, Converter={StaticResource IntTupleConverter}}" />
                                                                         </Grid>
                                                                     </DataTemplate>
                                                                     <DataTemplate DataType="{x:Type pm:ActivationFunctionParameter}">

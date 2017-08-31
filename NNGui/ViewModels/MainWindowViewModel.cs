@@ -16,6 +16,7 @@ using NNGui.Data;
 using NNGui.Data.Links;
 using NNGui.Data.Parameters;
 using Xml.Serialization;
+using NNGui.Data.Tuple;
 
 namespace NNGui.ViewModels
 {
@@ -31,8 +32,8 @@ namespace NNGui.ViewModels
 
             InputData = new ObservableCollection<Data.Parameters.InputData>();
 
-            InputData.Add(new Data.Parameters.InputData("State Images", new Tuple3D<int>(84, 84, 4), "The state conisting out of the last 4 images."));
-            InputData.Add(new Data.Parameters.InputData("State RAM", new Tuple1D<int>(1024 * 1024), "The state conisting out of the current RAM."));
+            InputData.Add(new Data.Parameters.InputData("State-Images", "State Images", new IntTuple3D(84, 84, 4), "The state conisting out of the last 4 images."));
+            InputData.Add(new Data.Parameters.InputData("State-RAM", "State RAM", new IntTuple1D(1024 * 1024), "The state conisting out of the current RAM."));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -59,12 +60,12 @@ namespace NNGui.ViewModels
 
         public void Export()
         {
-            var serializer = new XmlSerializer(typeof(NetworkArchitecture),
-                new Type[] { typeof(ActivationLayer), typeof(Convolution1DLayer), typeof(Convolution2DLayer), typeof(Convolution3DLayer), typeof(DenseLayer),
-                            typeof(DropoutLayer), typeof(FlattenLayer), typeof(ReshapeLayer), typeof(MergeLayer),
-                           typeof(ActivationFunctionParameter), typeof(DoubleParameter), typeof(IntParameter),
-                        typeof(IntTuple2DParameter),  typeof(IntTuple3DParameter),  typeof(IntTuple4DParameter)
-                    });
+            var serializer = new XmlSerializer(typeof(NetworkArchitecture), new Type[] {
+                    typeof(ActivationLayer), typeof(Convolution1DLayer), typeof(Convolution2DLayer), typeof(Convolution3DLayer), typeof(DenseLayer),
+                    typeof(DropoutLayer), typeof(FlattenLayer), typeof(ReshapeLayer), typeof(MergeLayer),
+                    typeof(ActivationFunctionParameter), typeof(DoubleParameter), typeof(IntParameter),
+                    typeof(IntTuple2DParameter),  typeof(IntTuple3DParameter),  typeof(IntTuple4DParameter)
+                });
             using (var sw = new System.IO.StreamWriter("network.xml"))
             {
                 using (XmlWriter writer = XmlWriter.Create(sw))
@@ -76,12 +77,12 @@ namespace NNGui.ViewModels
 
         public void Import()
         {
-            var serializer = new XmlCallbackSerializer(typeof(NetworkArchitecture),
-               new Type[] { typeof(ActivationLayer), typeof(Convolution1DLayer), typeof(Convolution2DLayer), typeof(Convolution3DLayer), typeof(DenseLayer),
-                            typeof(DropoutLayer), typeof(FlattenLayer), typeof(ReshapeLayer), typeof(MergeLayer),
-                           typeof(ActivationFunctionParameter), typeof(DoubleParameter), typeof(IntParameter),
-                        typeof(IntTuple2DParameter),  typeof(IntTuple3DParameter),  typeof(IntTuple4DParameter)
-                   });
+            var serializer = new XmlSerializer(typeof(NetworkArchitecture), new Type[] {
+                    typeof(ActivationLayer), typeof(Convolution1DLayer), typeof(Convolution2DLayer), typeof(Convolution3DLayer), typeof(DenseLayer),
+                    typeof(DropoutLayer), typeof(FlattenLayer), typeof(ReshapeLayer), typeof(MergeLayer),
+                    typeof(ActivationFunctionParameter), typeof(DoubleParameter), typeof(IntParameter),
+                    typeof(IntTuple2DParameter),  typeof(IntTuple3DParameter),  typeof(IntTuple4DParameter)
+                });
             using (var sr = new System.IO.StreamReader("network.xml"))
             {
                 using (XmlReader reader = XmlReader.Create(sr))

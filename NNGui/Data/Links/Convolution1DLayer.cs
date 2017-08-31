@@ -19,8 +19,8 @@ namespace NNGui.Data.Links
         public Convolution1DLayer(Chain parent, string name) : base(parent, name)
         {
             Parameters.Add(new IntParameter("Filters", this));
-            Parameters.Add(new IntParameter("Kernel Size", this));
-            Parameters.Add(new IntParameter("Stride", this));
+            Parameters.Add(new IntTuple1DParameter("Kernel Size", this));
+            Parameters.Add(new IntTuple1DParameter("Stride", this));
             Parameters.Add(new ActivationFunctionParameter("Activation", this));
         }
 

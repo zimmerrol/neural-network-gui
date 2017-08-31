@@ -76,6 +76,7 @@
     </Compile>
     <Compile Include="CommandHandler.cs" />
     <Compile Include="Commands.cs" />
+    <Compile Include="Converters\IntTupleConverter.cs" />
     <Compile Include="CustomXmlSerializer.cs" />
     <Compile Include="Data\Chain.cs" />
     <Compile Include="Data\Links\ActivationLayer.cs" />
@@ -97,7 +98,9 @@
     <Compile Include="Data\Parameters\IntParameter.cs" />
     <Compile Include="Data\Parameters\IntTupleParameter.cs" />
     <Compile Include="Data\Parameters\ParameterBase.cs" />
-    <Compile Include="EnumDescriptionConverter.cs" />
+    <Compile Include="Converters\EnumDescriptionConverter.cs" />
+    <Compile Include="Data\Parameters\ParameterValue.cs" />
+    <Compile Include="Data\Tuple.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\AddLayerWindow.xaml.cs">
       <DependentUpon>AddLayerWindow.xaml</DependentUpon>

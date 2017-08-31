@@ -19,6 +19,7 @@ namespace NNGui.Data.Parameters
         {
             Name = name;
         }
+        [XmlAttribute]
         public string Name { get; set; }
         [XmlIgnore]
         public LinkBase Parent { get; set; }
@@ -27,6 +28,7 @@ namespace NNGui.Data.Parameters
     [XmlInclude(typeof(ActivationFunctionParameter))]
     [XmlInclude(typeof(IntParameter))]
     [XmlInclude(typeof(DoubleParameter))]
+    [XmlInclude(typeof(IntTuple1DParameter))]
     [XmlInclude(typeof(IntTuple2DParameter))]
     [XmlInclude(typeof(IntTuple3DParameter))]
     [XmlInclude(typeof(IntTuple4DParameter))]

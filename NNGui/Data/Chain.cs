@@ -48,6 +48,7 @@ namespace NNGui.Data
             }
         }
 
+        [XmlAttribute]
         public string Name
         {
             get

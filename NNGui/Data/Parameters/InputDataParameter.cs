@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using NNGui.Data.Links;
+using NNGui.Data.Tuple;
 
 namespace NNGui.Data.Parameters
 {
@@ -18,16 +19,19 @@ namespace NNGui.Data.Parameters
     public class InputData
     {
         private InputData() { }
-        public InputData(string name, TupleBase<int> shape, string description)
+        public InputData(string id, string name, IntTupleBase shape, string description)
         {
+            ID = id;
             Name = name;
             Shape = shape;
             Description = description;
         }
 
+        public string ID { get; set; }
+        [XmlIgnore]
         public string Name { get; set; }
         [XmlIgnore]
-        public TupleBase<int> Shape { get; set; }
+        public IntTupleBase Shape { get; set; }
         [XmlIgnore]
         public string Description { get; set; }
     }

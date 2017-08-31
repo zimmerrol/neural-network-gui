@@ -53,9 +53,12 @@ namespace NNGui.Data.Links
         public Chain Chain { get; internal set; }
 
         public ObservableCollection<ParameterBase> Parameters { get; }
+        [XmlAttribute]
         public string Name { get; set; }
+        [XmlAttribute]
         public virtual string TypeName { get; }
 
+        [XmlAttribute]
         public string ID { get; set; }
 
         public static byte[] GetHash(string inputString)
