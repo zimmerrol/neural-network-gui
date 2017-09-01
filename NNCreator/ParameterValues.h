@@ -5,13 +5,13 @@
 using namespace std;
 enum class ActivationFunction
 {
+	sigmoid = 0,
 	elu,
 	selu,
 	softplus,
 	softsign,
 	relu,
 	tanh,
-	sigmoid = 0,
 	hard_sigmoid,
 	softmax
 };

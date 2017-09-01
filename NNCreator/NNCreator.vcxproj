@@ -144,6 +144,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Chain.h" />
+    <ClInclude Include="CNTKWrapper.h" />
     <ClInclude Include="InputData.h" />
     <ClInclude Include="Link.h" />
     <ClInclude Include="Network.h" />
@@ -156,6 +157,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Chain.cpp" />
+    <ClCompile Include="CNTKWrapper.cpp" />
     <ClCompile Include="InputData.cpp" />
     <ClCompile Include="Link.cpp" />
     <ClCompile Include="Network.cpp" />

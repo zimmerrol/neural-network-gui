@@ -1,13 +1,14 @@
 #pragma once
 #include <string>
-#include "Parameter.h"
-#include "ParameterValues.h"
 #include <vector>
 #include <memory>
 #include "CNTKLibrary.h"
 #include "../3rd/tinyxml2/tinyxml2.h"
 
 using namespace std;
+
+class CChain;
+class CParameterBaseInteface;
 
 enum class LinkType
 {
@@ -31,6 +32,7 @@ protected:
 	vector<CParameterBaseInteface*> m_parameters;
 	LinkType m_linkType;
 	CNTK::FunctionPtr m_functionPtr = nullptr;
+	CChain* m_pParentChain;
 
 	CLink(tinyxml2::XMLElement* pNode);	
 
@@ -47,6 +49,18 @@ public:
 
 	const CNTK::FunctionPtr& getFunctionPtr() const { return m_functionPtr; }
 	void setFunctionPtr(const CNTK::FunctionPtr& value) { m_functionPtr = value; }
+
+	void setParentChain(CChain* pParentChain) { m_pParentChain = pParentChain; }
+	const CChain* getParentChain() const { return m_pParentChain; }
+
+	CLink* getNextLink() const;
+	CLink* getPreviousLink() const;
+
+	std::vector<const CLink*> getDependencies() const;
+
+	void createCNTKFunctionPtr();
+	void createCNTKFunctionPtr(vector<const CLink*> dependencies);
+
 
 	static CLink* CLink::getInstance(tinyxml2::XMLElement* pNode);
 };

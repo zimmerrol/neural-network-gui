@@ -1,9 +1,12 @@
 #pragma once
-#include "Chain.h"
-#include "Network.h"
 #include <vector>
+#include "Network.h"
+#include "Link.h"
+#include "Chain.h"
 
-using namespace std;
+//class CChain;
+//class CLink;
+//class CNetwork;
 
 class CNetworkArchitecture
 {

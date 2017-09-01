@@ -1,9 +1,8 @@
 #pragma once
-#include "Link.h"
-
-
 #include <vector>
+#include "../3rd/tinyxml2/tinyxml2.h"
 
+class CLink;
 class CNetworkArchitecture;
 
 class CChain
@@ -12,6 +11,8 @@ protected:
 	vector<CLink*> m_chainLinks;
 	string m_name;
 	CChain(tinyxml2::XMLElement* pNode);
+
+	CNetworkArchitecture* m_pParentNetworkArchitecture;
 public:
 	CChain();
 	~CChain();
@@ -22,10 +23,8 @@ public:
 
 	const CLink* getLinkById(const char* id) const;
 
-	std::vector<const CLink*> getLinkDependencies(const CLink* pLink, const CNetworkArchitecture* pNetwork) const;
-
-	CLink* getNextLink(const CLink* value) const;
-	CLink* getPreviousLink(const CLink* value) const;
+	void setParentNetworkArchitecture(CNetworkArchitecture* pParentNetworkArchitecture) { m_pParentNetworkArchitecture = pParentNetworkArchitecture; }
+	const CNetworkArchitecture* getParentNetworkArchitecture() const { return m_pParentNetworkArchitecture; }
 
 	static CChain* getInstance(tinyxml2::XMLElement* pNode);
 };

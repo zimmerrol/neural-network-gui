@@ -28,9 +28,7 @@ namespace NNGui.Data.Parameters
         }
 
         public string ID { get; set; }
-        [XmlIgnore]
         public string Name { get; set; }
-        [XmlIgnore]
         public IntTupleBase Shape { get; set; }
         [XmlIgnore]
         public string Description { get; set; }

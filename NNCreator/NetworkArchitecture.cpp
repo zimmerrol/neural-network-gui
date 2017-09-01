@@ -1,8 +1,12 @@
 #include "stdafx.h"
-#include "NetworkArchitecture.h"
 #include "xmltags.h"
+#include "NetworkArchitecture.h"
+#include "Parameter.h"
 #include "Chain.h"
-
+#include "Link.h"
+#include "Network.h"
+#include "Parameter.h"
+#include "ParameterValues.h"
 
 CNetworkArchitecture::CNetworkArchitecture()
 {
@@ -19,6 +23,10 @@ CNetworkArchitecture::CNetworkArchitecture(tinyxml2::XMLElement* pParentNode) : 
 {
 	tinyxml2::XMLElement *pNode = pParentNode->FirstChildElement(XML_TAG_Chains);
 	loadChildren<CChain>(pNode, XML_TAG_Chain, m_chains);
+	for each (auto var in m_chains)
+	{
+		var->setParentNetworkArchitecture(this);
+	}
 }
 
 
@@ -85,7 +93,7 @@ CNetwork * CNetworkArchitecture::createNetwork()
 			while (pCurrentLink != nullptr)
 			{
 				//get dependencies
-				dependencies = pChain->getLinkDependencies(pCurrentLink, this);
+				dependencies = pCurrentLink->getDependencies();
 
 				//check if dependencies have already been traversed
 				bool dependencies_satisfied = true;
@@ -109,7 +117,7 @@ CNetwork * CNetworkArchitecture::createNetwork()
 				pCurrentLink->setFunctionPtr(pDummyValue);
 
 				//update current link
-				pCurrentLink = pChain->getNextLink(pCurrentLink);
+				pCurrentLink = pCurrentLink->getNextLink();
 
 				//keep the loop alive
 				architectureDeadEndReached = false;

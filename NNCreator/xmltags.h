@@ -35,6 +35,7 @@
 //#define XML_TAG_ ""
 
 #include <vector>
+#include "../3rd/tinyxml2/tinyxml2.h"
 
 template <typename T>
 void loadChildren(tinyxml2::XMLElement* pParentNode, const char* xmlTag, std::vector<T*> &outVec)

@@ -121,7 +121,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Grid>
+        <Grid DataContext="{Binding Problem}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition />
@@ -129,7 +129,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <GroupBox Grid.Row="0" Header="Input Data" DataContext="{Binding InputData}">
+            <GroupBox Grid.Row="0" Header="Input Data" DataContext="{Binding Inputs}">
                 <ItemsControl ItemsSource="{Binding }">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -152,7 +152,7 @@
                 </ItemsControl>
             </GroupBox>
 
-            <GroupBox Grid.Row="1" Header="Architecture" DataContext="{Binding Architecture}">
+            <GroupBox Grid.Row="1" Header="Architecture" DataContext="{Binding NetworkArchitecture}">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                     <ItemsControl ItemsSource="{Binding Chains, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                   dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True">

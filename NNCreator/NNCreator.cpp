@@ -2,10 +2,17 @@
 //
 
 #include "stdafx.h"
+#include <iostream>
 #include "../3rd/tinyxml2/tinyxml2.h"
 #include "xmltags.h"
 #include "NetworkArchitecture.h"
-#include <iostream>
+#include "Parameter.h"
+#include "Chain.h"
+#include "Link.h"
+#include "Network.h"
+#include "Parameter.h"
+#include "ParameterValues.h"
+
 
 using namespace std;
 

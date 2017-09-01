@@ -24,16 +24,21 @@ namespace NNGui.ViewModels
     {
         public MainWindowViewModel()
         {
-            _architecture = new NetworkArchitecture();
+            foreach (var item in GetSampleInputData())
+                Problem.Inputs.Add(item);
 
-            Architecture.Chains.Add(new Chain(Architecture, "123"));
-            Architecture.Chains.Add(new Chain(Architecture, "456"));
-            Architecture.Chains[0].ChainLinks.Add(new DenseLayer(Architecture.Chains[0], "dense1"));
+            Problem.NetworkArchitecture.Chains.Add(new Chain(Problem.NetworkArchitecture, "123"));
+            Problem.NetworkArchitecture.Chains.Add(new Chain(Problem.NetworkArchitecture, "456"));
+            Problem.NetworkArchitecture.Chains[0].ChainLinks.Add(new DenseLayer(Problem.NetworkArchitecture.Chains[0], "dense1"));
 
-            InputData = new ObservableCollection<Data.Parameters.InputData>();
+        }
 
-            InputData.Add(new Data.Parameters.InputData("State-Images", "State Images", new IntTuple3D(84, 84, 4), "The state conisting out of the last 4 images."));
-            InputData.Add(new Data.Parameters.InputData("State-RAM", "State RAM", new IntTuple1D(1024 * 1024), "The state conisting out of the current RAM."));
+        public static List<InputData> GetSampleInputData()
+        {
+            var result = new List<InputData>();
+            result.Add(new Data.Parameters.InputData("State-Images", "State Images", new IntTuple3D(84, 84, 4), "The state conisting out of the last 4 images."));
+            result.Add(new Data.Parameters.InputData("State-RAM", "State RAM", new IntTuple1D(1024 * 1024), "The state conisting out of the current RAM."));
+            return result;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -42,56 +47,19 @@ namespace NNGui.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private NetworkArchitecture _architecture;
-        public NetworkArchitecture Architecture
+        private Problem _problem = new Problem();
+        public Problem Problem
         {
-            private set
+            set
             {
-                _architecture = value;
-                OnPropertyChanged("Architecture");
+                _problem = value;
+                OnPropertyChanged("Problem");
             }
             get
             {
-                return _architecture;
+                return _problem;
             }
         }
-
-        public ObservableCollection<InputData> InputData { get; }
-
-        public void Export()
-        {
-            var serializer = new XmlSerializer(typeof(NetworkArchitecture), new Type[] {
-                    typeof(ActivationLayer), typeof(Convolution1DLayer), typeof(Convolution2DLayer), typeof(Convolution3DLayer), typeof(DenseLayer),
-                    typeof(DropoutLayer), typeof(FlattenLayer), typeof(ReshapeLayer), typeof(MergeLayer),
-                    typeof(ActivationFunctionParameter), typeof(DoubleParameter), typeof(IntParameter),
-                    typeof(IntTuple2DParameter),  typeof(IntTuple3DParameter),  typeof(IntTuple4DParameter)
-                });
-            using (var sw = new System.IO.StreamWriter("network.xml"))
-            {
-                using (XmlWriter writer = XmlWriter.Create(sw))
-                {
-                    serializer.Serialize(writer, Architecture);
-                }
-            }
-        }
-
-        public void Import()
-        {
-            var serializer = new XmlSerializer(typeof(NetworkArchitecture), new Type[] {
-                    typeof(ActivationLayer), typeof(Convolution1DLayer), typeof(Convolution2DLayer), typeof(Convolution3DLayer), typeof(DenseLayer),
-                    typeof(DropoutLayer), typeof(FlattenLayer), typeof(ReshapeLayer), typeof(MergeLayer),
-                    typeof(ActivationFunctionParameter), typeof(DoubleParameter), typeof(IntParameter),
-                    typeof(IntTuple2DParameter),  typeof(IntTuple3DParameter),  typeof(IntTuple4DParameter)
-                });
-            using (var sr = new System.IO.StreamReader("network.xml"))
-            {
-                using (XmlReader reader = XmlReader.Create(sr))
-                {
-                    Architecture = serializer.Deserialize(reader) as NetworkArchitecture;
-                }
-            }
-        }
-
 
         public DragDropHandler DDHandler { get; set; } = new DragDropHandler();
 

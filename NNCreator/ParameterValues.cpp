@@ -1,6 +1,12 @@
 #include "stdafx.h"
-#include "ParameterValues.h"
 #include "xmltags.h"
+#include "NetworkArchitecture.h"
+#include "Parameter.h"
+#include "Chain.h"
+#include "Link.h"
+#include "Network.h"
+#include "Parameter.h"
+#include "ParameterValues.h"
 
 CIntTuple1D::CIntTuple1D(tinyxml2::XMLElement* pParentNode) : CIntTuple1D()
 {

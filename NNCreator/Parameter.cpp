@@ -1,7 +1,11 @@
 #include "stdafx.h"
-#include "Parameter.h"
-#include "ParameterValues.h"
 #include "xmltags.h"
+#include "NetworkArchitecture.h"
+#include "Parameter.h"
+#include "Chain.h"
+#include "Link.h"
+#include "Network.h"
+#include "Parameter.h"
 #include "ParameterValues.h"
 
 template <typename T>

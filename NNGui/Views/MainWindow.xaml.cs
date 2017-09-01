@@ -66,7 +66,7 @@ namespace NNGui
                         }
                         insertIndex = 0;
                         link = new Data.Links.InputLayer(cn, String.Format("Input Layer"));
-                        ((InputDataParameter)((InputLayer)link).Parameters[0]).Value = ((MainWindowViewModel)DataContext).InputData[0];
+                        ((InputDataParameter)((InputLayer)link).Parameters[0]).Value = ((MainWindowViewModel)DataContext).Problem.Inputs[0];
                         break;
                     case LinkType.ActivationLayer:
                         link = new Data.Links.ActivationLayer(cn, String.Format("Activation Layer"));
@@ -127,14 +127,12 @@ namespace NNGui
 
         private void ExportButton_Click(object sender, RoutedEventArgs e)
         {
-            ((MainWindowViewModel)DataContext).Export();
+            ((MainWindowViewModel)DataContext).Problem.Export();
         }
 
         private void ImportButton_Click(object sender, RoutedEventArgs e)
         {
-            ((MainWindowViewModel)DataContext).Import();
-        }
-
-    
+            ((MainWindowViewModel)DataContext).Problem = Problem.Import(MainWindowViewModel.GetSampleInputData());
+        }    
     }
 }
