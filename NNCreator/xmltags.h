@@ -8,6 +8,7 @@
 #define XML_TAG_Parameters "Parameters"
 #define XML_TAG_Value "Value"
 #define XML_ATTRIBUTE_Name "Name"
+#define XML_ATTRIBUTE_Id "ID"
 #define XML_TAG_Id "ID"
 #define XML_TAG_ParameterBase "ParameterBase"
 
@@ -15,6 +16,10 @@
 #define XML_TAG_Tuple_2 "x2"
 #define XML_TAG_Tuple_3 "x3"
 #define XML_TAG_Tuple_4 "x4"
+
+#define XML_TAG_LinkConnection "LinkConnection"
+
+#define XML_ATTRIBUTE_TargetId "TargetID"
 
 #define XML_ATTRIBUTE_ActivationFunctionParameter "ActivationFunctionParameter"
 #define XML_ATTRIBUTE_DoubleParameter "DoubleParameter"
@@ -24,7 +29,7 @@
 #define XML_ATTRIBUTE_IntTuple2DParameter "IntTuple2DParameter"
 #define XML_ATTRIBUTE_IntTuple3DParameter "IntTuple3DParameter"
 #define XML_ATTRIBUTE_IntTuple4DParameter "IntTuple4DParameter"
-#define XML_ATTRIBUTE_LinkConnectionListParameter "XML_ATTRIBUTE_LinkConnectionListParameter"
+#define XML_ATTRIBUTE_LinkConnectionListParameter "LinkConnectionListParameter"
 #define XML_ATTRIBUTE_Type "xsi:type"
 //#define XML_ATTRIBUTE_ ""
 //#define XML_TAG_ ""

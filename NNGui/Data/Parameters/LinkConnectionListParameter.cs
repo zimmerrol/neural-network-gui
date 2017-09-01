@@ -170,6 +170,8 @@ namespace NNGui.Data.Parameters
 
         [XmlIgnore]
         public Links.LinkBase Target { get; set; }
+
+        [XmlAttribute]
         public string TargetID { get; set; }
     }
 

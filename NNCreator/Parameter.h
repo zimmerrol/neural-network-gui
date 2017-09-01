@@ -2,6 +2,7 @@
 #include <string>
 #include "../3rd/tinyxml2/tinyxml2.h"
 #include "ParameterValues.h"
+#include <vector>
 
 using namespace std;
 
@@ -20,6 +21,7 @@ class CParameterBase : public CParameterBaseInteface
 {
 protected:
 	T m_value;
+	CParameterBase(tinyxml2::XMLElement* pNode);
 
 public:
 	CParameterBase() : CParameterBaseInteface() {};
@@ -45,31 +47,31 @@ public:
 
 };
 
-class CIntTuple1DParameter : public CParameterBase<CTuple1D<int>>
+class CIntTuple1DParameter : public CParameterBase<CIntTuple1D>
 {
 public:
 	CIntTuple1DParameter(tinyxml2::XMLElement* pNode);
 
 };
 
-class CIntTuple2DParameter : public CParameterBase<CTuple2D<int>>
+class CIntTuple2DParameter : public CParameterBase<CIntTuple2D>
 {
 public:
 	CIntTuple2DParameter(tinyxml2::XMLElement* pNode);
 
 };
 
-class CIntTuple3DParameter : public CParameterBase<CTuple3D<int>>
+class CIntTuple3DParameter : public CParameterBase<CIntTuple3D>
 {
 public:
 	CIntTuple3DParameter(tinyxml2::XMLElement* pNode);
 
 };
 
-class CIntTuple4DParameter : public CParameterBase<CTuple4D<int>>
+class CIntTuple4DParameter : public CParameterBase<CIntTuple4D>
 {
 public:
-	CIntTuple4DParameter() : CParameterBase<CTuple4D<int>>() {};
+	CIntTuple4DParameter() : CParameterBase<CIntTuple4D>() {};
 	CIntTuple4DParameter(tinyxml2::XMLElement* pNode);
 };
 
@@ -80,9 +82,17 @@ public:
 
 };
 
-class CInputDataParameter : public CParameterBase<CInputData>
+class CInputDataParameter : public CParameterBase<CInputDataValue>
 {
 public:
 	CInputDataParameter(tinyxml2::XMLElement* pNode);
+
+};
+
+
+class CLinkConnectionListParameter : public CParameterBase<vector<CLinkConnection*>>
+{
+public:
+	CLinkConnectionListParameter(tinyxml2::XMLElement* pNode);
 
 };

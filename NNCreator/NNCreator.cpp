@@ -20,6 +20,8 @@ int main()
 		if (pRoot)
 		{
 			auto networkArchitecture = CNetworkArchitecture::getInstance(pRoot);
+			auto param = (CInputDataParameter*)(networkArchitecture->getChains().at(0)->getChainLinks().at(0)->getParameterByName("Input Data"));
+			auto model = networkArchitecture->createNetwork();
 			cout << networkArchitecture;
 		}
 	}

@@ -2,46 +2,13 @@
 #include "ParameterValues.h"
 #include "xmltags.h"
 
-CInputData::CInputData(tinyxml2::XMLElement* pNode) : CInputData()
-{
-
-}
-
-
-/*
-template <typename T>
-CTuple1D<T>::CTuple1D(tinyxml2::XMLElement* pNode)
-{
-
-}
-
-template <typename T>
-CTuple2D<T>::CTuple2D(tinyxml2::XMLElement* pNode) : CTuple2D<T>()
-{
-
-}
-
-template <typename T>
-CTuple3D<T>::CTuple3D(tinyxml2::XMLElement* pNode) : CTuple3D<T>()
-{
-
-}
-
-template <typename T>
-CTuple4D<T>::CTuple4D(tinyxml2::XMLElement* pNode) : CTuple4D<T>()
-{
-
-}
-*/
-
-/*
-CTuple1D<int>::CTuple1D(tinyxml2::XMLElement* pParentNode) : CTuple1D<int>()
+CIntTuple1D::CIntTuple1D(tinyxml2::XMLElement* pParentNode) : CIntTuple1D()
 {
 	tinyxml2::XMLElement *pNode = pParentNode->FirstChildElement(XML_TAG_Tuple_1);
 	m_x1 = stoi(pNode->GetText());
 }
 
-CTuple2D<int>::CTuple2D(tinyxml2::XMLElement* pParentNode) : CTuple<int>()
+CIntTuple2D::CIntTuple2D(tinyxml2::XMLElement* pParentNode) : CIntTuple2D()
 {
 	tinyxml2::XMLElement *pNode = pParentNode->FirstChildElement(XML_TAG_Tuple_1);
 	m_x1 = stoi(pNode->GetText());
@@ -49,7 +16,7 @@ CTuple2D<int>::CTuple2D(tinyxml2::XMLElement* pParentNode) : CTuple<int>()
 	m_x2 = stoi(pNode->GetText());
 }
 
-CTuple3D<int>::CTuple3D(tinyxml2::XMLElement* pParentNode) : CTuple<int>()
+CIntTuple3D::CIntTuple3D(tinyxml2::XMLElement* pParentNode) : CIntTuple3D()
 {
 	tinyxml2::XMLElement *pNode = pParentNode->FirstChildElement(XML_TAG_Tuple_1);
 	m_x1 = stoi(pNode->GetText());
@@ -59,7 +26,7 @@ CTuple3D<int>::CTuple3D(tinyxml2::XMLElement* pParentNode) : CTuple<int>()
 	m_x3 = stoi(pNode->GetText());
 }
 
-CTuple4D<int>::CTuple4D(tinyxml2::XMLElement* pParentNode) : CTuple<int>()
+CIntTuple4D::CIntTuple4D(tinyxml2::XMLElement* pParentNode) : CIntTuple4D()
 {
 	tinyxml2::XMLElement *pNode = pParentNode->FirstChildElement(XML_TAG_Tuple_1);
 	m_x1 = stoi(pNode->GetText());
@@ -70,32 +37,62 @@ CTuple4D<int>::CTuple4D(tinyxml2::XMLElement* pParentNode) : CTuple<int>()
 	pNode = pParentNode->FirstChildElement(XML_TAG_Tuple_4);
 	m_x4 = stoi(pNode->GetText());
 }
-*/
 
-template <typename T>
-static CTuple1D<T>* getInstance(tinyxml2::XMLElement* pNode)
+CIntTuple1D* CIntTuple1D::getInstance(tinyxml2::XMLElement* pNode)
 {
 	//some type checking would be good, but due to C#, this is not possible atm.
-	return new CTuple1D<T>(pNode);
+	return new CIntTuple1D(pNode);
 }
 
-template <typename T>
-static CTuple2D<T>* getInstance(tinyxml2::XMLElement* pNode)
+
+CIntTuple2D* CIntTuple2D::getInstance(tinyxml2::XMLElement* pNode)
 {
 	//some type checking would be good, but due to C#, this is not possible atm.
-	return new CTuple2D<T>(pNode);
+	return new CIntTuple2D(pNode);
 }
 
-template <typename T>
-static CTuple3D<T>* getInstance(tinyxml2::XMLElement* pNode)
+CIntTuple3D* CIntTuple3D::getInstance(tinyxml2::XMLElement* pNode)
 {
 	//some type checking would be good, but due to C#, this is not possible atm.
-	return new CTuple3D<T>(pNode);
+	return new CIntTuple3D(pNode);
 }
 
-template <typename T>
-static CTuple4D<T>* getInstance(tinyxml2::XMLElement* pNode)
+CIntTuple4D* CIntTuple4D::getInstance(tinyxml2::XMLElement* pNode)
 {
 	//some type checking would be good, but due to C#, this is not possible atm.
-	return new CTuple4D<T>(pNode);
+	return new CIntTuple4D(pNode);
+}
+
+CInputDataValue* CInputDataValue::getInstance(tinyxml2::XMLElement* pNode)
+{
+	//some type checking would be good, but due to C#, this is not possible atm.
+	return new CInputDataValue(pNode);
+}
+
+CLinkConnection* CLinkConnection::getInstance(tinyxml2::XMLElement* pNode)
+{
+	if (!strcmp(pNode->Name(), XML_TAG_LinkConnection))
+	{
+		return new CLinkConnection(pNode);
+	}
+	return nullptr;
+}
+
+CInputDataValue::CInputDataValue(tinyxml2::XMLElement* pParentNode) : CInputDataValue()
+{
+	tinyxml2::XMLElement *pNode = pParentNode->FirstChildElement(XML_TAG_Id);
+	m_id = pNode->GetText();
+}
+
+CLinkConnection::CLinkConnection(tinyxml2::XMLElement* pNode) : CLinkConnection()
+{
+	m_targetID = pNode->Attribute(XML_ATTRIBUTE_TargetId);
+}
+
+CLinkConnection::CLinkConnection()
+{
+}
+
+CLinkConnection::~CLinkConnection()
+{
 }

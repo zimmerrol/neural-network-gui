@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Link.h"
 #include "xmltags.h"
-
+#include "CNTKLibrary.h"
 
 CLink::CLink()
 {
@@ -12,7 +12,7 @@ CLink::~CLink()
 {
 }
 
-const CParameterBaseInteface* CLink::getParameterByName(const string name)
+const CParameterBaseInteface* CLink::getParameterByName(const string name) const
 {
 	for each (auto item in this->m_parameters)
 	{
@@ -51,6 +51,12 @@ CLink::CLink(tinyxml2::XMLElement* pParentNode)
 		m_linkType = LinkType::MergeLayer;
 	else
 		throw "type has not been recognized";
+
+	//read name
+	m_name = pParentNode->Attribute(XML_ATTRIBUTE_Name);
+
+	//read id
+	m_id = pParentNode->Attribute(XML_ATTRIBUTE_Id);
 
 	//read parameters
 	tinyxml2::XMLElement *pNode = pParentNode->FirstChildElement(XML_TAG_Parameters);
