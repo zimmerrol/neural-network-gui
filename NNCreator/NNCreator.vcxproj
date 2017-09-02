@@ -85,6 +85,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectDir)bin\$(Configuration)\$(PlatformTarget)</OutDir>
+    <IntDir>$(ProjectDir)obj\$(Configuration)\$(PlatformTarget)</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

@@ -26,6 +26,7 @@
 
 #define XML_TAG_Problem "Problem"
 #define XML_TAG_Inputs "Inputs"
+#define XML_TAG_Output "Output"
 #define XML_TAG_InputData "InputData"
 
 #define XML_TAG_LinkConnection "LinkConnection"

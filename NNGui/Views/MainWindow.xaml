@@ -241,7 +241,7 @@
                                                                         Style="{StaticResource DeleteButtonStyle}" Command="local:Commands.RemoveChainLinkCommand"
                                                                         CommandParameter="{Binding }"/>
                                                                 </Grid>
-                                                                <TextBox Grid.Row="1" Margin="4 0" Text="{Binding Name, Mode=OneWay, NotifyOnSourceUpdated=True}" />
+                                                                <TextBox Grid.Row="1" Margin="4 0" Text="{Binding Name, Mode=TwoWay, NotifyOnSourceUpdated=True}" />
                                                                 <TextBlock Grid.Row="2" Text="ID:" Margin="0 4 0 2" Foreground="#222" FontSize="11" VerticalAlignment="Bottom"/>
                                                                 <TextBlock Grid.Row="3" Margin="4 0" Text="{Binding ID}"/>
                                                                 <TextBlock Grid.Row="4" Text="Type:" Margin="0 4 0 2" Foreground="#222" FontSize="11" VerticalAlignment="Bottom"/>
@@ -264,7 +264,12 @@
                                                                                     <ListBox.ItemTemplate>
                                                                                         <DataTemplate>
                                                                                             <StackPanel Orientation="Horizontal">
-                                                                                                <TextBlock Text="{Binding ID}" />
+                                                                                                <StackPanel Orientation="Vertical">
+                                                                                                    <TextBlock Grid.Row="2" Text="Name:" Margin="0 4 0 2" Foreground="#222" FontSize="11" VerticalAlignment="Bottom"/>
+                                                                                                    <TextBlock Text="{Binding Name}" />
+                                                                                                    <TextBlock Grid.Row="2" Text="ID:" Margin="0 4 0 2" Foreground="#222" FontSize="11" VerticalAlignment="Bottom"/>
+                                                                                                    <TextBlock Text="{Binding ID}" />
+                                                                                                </StackPanel>
                                                                                                 <Button Style="{StaticResource DeleteButtonStyle}" Template="{StaticResource DeleteButtonTemplate}"
                                                                                                     Command="local:Commands.RemoveLinkConnectionCommand" CommandParameter="{Binding DataContext,RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"/>
                                                                                             </StackPanel>
@@ -393,25 +398,33 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition MaxWidth="200px" />
-                        <ColumnDefinition />
+                        <ColumnDefinition  MaxWidth="200px" />
                     </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-
-                    <StackPanel Grid.Column="0" Grid.Row="0">
-                        <TextBlock Text="Optimizer:" />
+                   
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="Optimizer:"  FontSize="11" Foreground="#222" />
                         <ComboBox Margin="5 2" />
+
+                        <TextBlock Text="Parameters" Margin="5 0 0 0" FontSize="11" Foreground="#222" />
                     </StackPanel>
 
-                    <Expander Grid.Column="1" Grid.RowSpan="2" Header="Parameters" Margin="5 0 0 0">
+                   
 
-                    </Expander>
-
-                    <StackPanel Grid.Row="1">
-                        <TextBlock Text="Output Layer:" />
-                        <ComboBox Margin="5 2" />
+                    <StackPanel>
+                        <TextBlock Text="Output Layer:" FontSize="11" Foreground="#222" />
+                        <ListBox Margin="5 2" Height="82px" ToolTip="Drop the output layer (link) here." ItemsSource="{Binding RawOutput, Mode=TwoWay}"
+                                 dd:DragDrop.IsDropTarget="True" dd:DragDrop.DropHandler="{Binding OutputDDHandler}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Vertical">
+                                        <TextBlock Grid.Row="2" Text="Name:" Margin="0 4 0 2" Foreground="#222" FontSize="11" VerticalAlignment="Bottom"/>
+                                        <TextBlock Text="{Binding Name}" />
+                                        <TextBlock Grid.Row="2" Text="ID:" Margin="0 4 0 2" Foreground="#222" FontSize="11" VerticalAlignment="Bottom"/>
+                                        <TextBlock Text="{Binding ID}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </StackPanel>
                 </Grid>
 

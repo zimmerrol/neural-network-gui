@@ -5,16 +5,23 @@
 #include "NetworkArchitecture.h"
 #include "Link.h"
 #include "Chain.h"
-
+#include "ParameterValues.h"
+#include "Network.h"
 
 CProblem::CProblem(tinyxml2::XMLElement * pParentNode)
 {
+	//load architecture
 	tinyxml2::XMLElement *pNode = pParentNode->FirstChildElement(XML_TAG_NETWORK_ARCHITECTURE);
 	m_pNetworkArchitecture = CNetworkArchitecture::getInstance(pNode);
 	m_pNetworkArchitecture->setParentProblem(this);
 
+	//load inputs
 	pNode = pParentNode->FirstChildElement(XML_TAG_Inputs);
 	loadChildren<CInputData>(pNode, XML_TAG_InputData, m_inputs);
+
+	//load output
+	pNode = pParentNode->FirstChildElement(XML_TAG_Output)->FirstChildElement(XML_TAG_LinkConnection);
+	m_output = CLinkConnection::getInstance(pNode);
 }
 
 CProblem::CProblem()
@@ -37,6 +44,7 @@ CProblem * CProblem::getInstance(tinyxml2::XMLElement * pNode)
 
 CNetwork * CProblem::createNetwork()
 {
+	CNetwork* result = new CNetwork();
 	/*
 	basic idea of this algorithm: we traverse all chains to create the real model
 	to achieve this we follow this pseudo-code:
@@ -53,16 +61,19 @@ CNetwork * CProblem::createNetwork()
 	for each (CInputData* input in m_inputs)
 	{
 		if (input->getInputFunctionPtr() == nullptr)
+		{
 			input->createInputFunctionPtr();
+			result->getInputs().push_back(input);
+		}
 	}
 
-	bool output_reached = false;
+	CNTK::FunctionPtr pOutputFunction = nullptr;
 
 	auto progressMap = std::map<CChain*, CLink*>();
 	CLink* pCurrentLink;
 	vector<const CLink*> dependencies;
 	bool architectureDeadEndReached = false;
-	while (!output_reached && !architectureDeadEndReached)
+	while (pOutputFunction == nullptr && !architectureDeadEndReached)
 	{
 		architectureDeadEndReached = true;
 
@@ -105,17 +116,32 @@ CNetwork * CProblem::createNetwork()
 
 				//TODO: add real code
 				pCurrentLink->createCNTKFunctionPtr(dependencies);
+				result->getFunctionPtrs().push_back(pCurrentLink->getFunctionPtr());
+
+				//pCurrentLink->getFunctionPtr()->Save(L"C:\\Users\\Roland\\Desktop\\graph.dat");
+
+				//check if output has been reached already
+				if (!strcmp(m_output->getTargetId().c_str(), pCurrentLink->getId().c_str()))
+				{
+					pOutputFunction = pCurrentLink->getFunctionPtr()->Output();
+					result->getOutputsFunctionPtr().push_back(pOutputFunction);
+					break;
+				}
 
 				//update current link
 				pCurrentLink = pCurrentLink->getNextLink();
 
 				//keep the loop alive
 				architectureDeadEndReached = false;
+
 			}
+
+			if (pOutputFunction != nullptr)
+				break;
 
 			progressMap.insert_or_assign(pChain, pCurrentLink);
 		}
 	}
 
-	return nullptr;
+	return result;
 }

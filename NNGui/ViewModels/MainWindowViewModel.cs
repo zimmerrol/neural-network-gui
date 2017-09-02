@@ -73,6 +73,9 @@ namespace NNGui.ViewModels
 
             public void Drop(IDropInfo dropInfo)
             {
+                if (dropInfo.Data == dropInfo.TargetItem)
+                    return;
+
                 var targetChain = ((ItemsControl)dropInfo.VisualTarget).DataContext as Chain;
                 var item = dropInfo.Data as LinkBase;
 
