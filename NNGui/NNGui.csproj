@@ -77,6 +77,7 @@
     <Compile Include="CommandHandler.cs" />
     <Compile Include="Commands.cs" />
     <Compile Include="Converters\IntTupleConverter.cs" />
+    <Compile Include="Converters\InvertedBooleanToVisibilityConverter.cs" />
     <Compile Include="CustomXmlSerializer.cs" />
     <Compile Include="Data\Chain.cs" />
     <Compile Include="Data\Links\ActivationLayer.cs" />

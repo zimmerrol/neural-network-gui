@@ -1,10 +1,18 @@
 #include "stdafx.h"
 #include "InputData.h"
+#include "xmltags.h"
+#include "ParameterValues.h"
+#include "CNTKWrapper.h"
 
 
-CInputData::CInputData(tinyxml2::XMLElement * pNode)
+CInputData::CInputData(tinyxml2::XMLElement * pParentNode)
 {
-	//read id
+	m_id = pParentNode->Attribute(XML_ATTRIBUTE_Id);
+	m_name = pParentNode->Attribute(XML_ATTRIBUTE_Name);
+
+	tinyxml2::XMLElement* pNode = pParentNode->FirstChildElement(XML_TAG_Shape);
+	m_pShape = CIntTuple::getInstance(pNode);
+
 }
 
 CInputData::CInputData(string id, CNTK::FunctionPtr pInputFunctionPtr)
@@ -20,5 +28,12 @@ CInputData::~CInputData()
 
 CInputData * CInputData::getInstance(tinyxml2::XMLElement * pNode)
 {
+	if (!strcmp(pNode->Name(), XML_TAG_InputData))
+		return new CInputData(pNode);
 	return nullptr;
+}
+
+void CInputData::createInputFunctionPtr()
+{
+	m_pInputFunctionPtr = CNTK::InputVariable(m_pShape->getNDShape(), CNTK::DataType::Float, CNTKWrapper::Internal::string2wstring(m_name));
 }

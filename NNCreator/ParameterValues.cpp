@@ -46,26 +46,26 @@ CIntTuple4D::CIntTuple4D(tinyxml2::XMLElement* pParentNode) : CIntTuple4D()
 
 CIntTuple1D* CIntTuple1D::getInstance(tinyxml2::XMLElement* pNode)
 {
-	//some type checking would be good, but due to C#, this is not possible atm.
+	//if (!strcmp(pNode->Attribute(XML_ATTRIBUTE_Type), XML_TAG_IntTuple1D))
 	return new CIntTuple1D(pNode);
 }
 
 
 CIntTuple2D* CIntTuple2D::getInstance(tinyxml2::XMLElement* pNode)
 {
-	//some type checking would be good, but due to C#, this is not possible atm.
+	//if (!strcmp(pNode->Attribute(XML_ATTRIBUTE_Type), XML_TAG_IntTuple2D))
 	return new CIntTuple2D(pNode);
 }
 
 CIntTuple3D* CIntTuple3D::getInstance(tinyxml2::XMLElement* pNode)
 {
-	//some type checking would be good, but due to C#, this is not possible atm.
+	//if (!strcmp(pNode->Attribute(XML_ATTRIBUTE_Type), XML_TAG_IntTuple3D))
 	return new CIntTuple3D(pNode);
 }
 
 CIntTuple4D* CIntTuple4D::getInstance(tinyxml2::XMLElement* pNode)
 {
-	//some type checking would be good, but due to C#, this is not possible atm.
+	//if (!strcmp(pNode->Attribute(XML_ATTRIBUTE_Type), XML_TAG_IntTuple4D))
 	return new CIntTuple4D(pNode);
 }
 
@@ -86,8 +86,11 @@ CLinkConnection* CLinkConnection::getInstance(tinyxml2::XMLElement* pNode)
 
 CInputDataValue::CInputDataValue(tinyxml2::XMLElement* pParentNode) : CInputDataValue()
 {
-	tinyxml2::XMLElement *pNode = pParentNode->FirstChildElement(XML_TAG_Id);
-	m_id = pNode->GetText();
+	m_id = pParentNode->Attribute(XML_ATTRIBUTE_Id);
+	m_name = pParentNode->Attribute(XML_ATTRIBUTE_Name);
+
+	tinyxml2::XMLElement* pNode = pParentNode->FirstChildElement(XML_TAG_Shape);
+	m_pShape = CIntTuple::getInstance(pNode);
 }
 
 CLinkConnection::CLinkConnection(tinyxml2::XMLElement* pNode) : CLinkConnection()
@@ -101,4 +104,17 @@ CLinkConnection::CLinkConnection()
 
 CLinkConnection::~CLinkConnection()
 {
+}
+
+CIntTuple * CIntTuple::getInstance(tinyxml2::XMLElement * pNode)
+{
+	string type = pNode->Attribute(XML_ATTRIBUTE_Type);
+	if (!strcmp(type.c_str(), XML_TAG_IntTuple1D))
+		return CIntTuple1D::getInstance(pNode);
+	else if (!strcmp(type.c_str(), XML_TAG_IntTuple2D))
+		return CIntTuple2D::getInstance(pNode);
+	else if (!strcmp(type.c_str(), XML_TAG_IntTuple3D))
+		return CIntTuple3D::getInstance(pNode);
+	else if (!strcmp(type.c_str(), XML_TAG_IntTuple4D))
+		return CIntTuple4D::getInstance(pNode);
 }

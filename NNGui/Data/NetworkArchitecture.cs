@@ -6,11 +6,16 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace NNGui.Data
 {
     public class NetworkArchitecture : INotifyPropertyChanged, IDeserializationCallback
     {
+        public NetworkArchitecture(Problem problem) : this()
+        {
+            Problem = problem;
+        }
         public NetworkArchitecture()
         {
             Chains = new ObservableCollection<Chain>();
@@ -23,6 +28,10 @@ namespace NNGui.Data
         }
 
         public ObservableCollection<Chain> Chains { get; }
+
+        [XmlIgnore]
+        public Problem Problem { get; set; }
+
    
         public void OnDeserialization(object sender)
         {

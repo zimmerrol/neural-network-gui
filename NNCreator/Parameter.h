@@ -27,7 +27,7 @@ public:
 	CParameterBase() : CParameterBaseInteface() {};
 	~CParameterBase();
 
-	T getValue() { return m_value; }
+	T getValue() const { return m_value; }
 	void setValue(T value) { m_value = value; }
 
 };
@@ -71,7 +71,6 @@ public:
 class CIntTuple4DParameter : public CParameterBase<CIntTuple4D>
 {
 public:
-	CIntTuple4DParameter() : CParameterBase<CIntTuple4D>() {};
 	CIntTuple4DParameter(tinyxml2::XMLElement* pNode);
 };
 
@@ -82,13 +81,12 @@ public:
 
 };
 
-class CInputDataParameter : public CParameterBase<CInputDataValue>
+class CInputDataParameter : public CParameterBase<string>
 {
 public:
 	CInputDataParameter(tinyxml2::XMLElement* pNode);
 
 };
-
 
 class CLinkConnectionListParameter : public CParameterBase<vector<CLinkConnection*>>
 {

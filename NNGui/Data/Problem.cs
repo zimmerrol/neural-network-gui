@@ -3,23 +3,31 @@ using NNGui.Data.Parameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
+using Xml.Serialization;
 
 namespace NNGui.Data
 {
-    public class Problem
+    public class Problem : IDeserializationCallback
     {
+        public Problem()
+        {
+           NetworkArchitecture = new NetworkArchitecture(this);
+        }
+
         public List<InputData> Inputs { get; } = new List<InputData>();
         //TODO: add support for this later
         //public List<OutputData> Outputs { get; set; }
-        public NetworkArchitecture NetworkArchitecture { get; set; } = new NetworkArchitecture();
+        public NetworkArchitecture NetworkArchitecture { get; set; } 
 
         public void Export()
         {
-            var serializer = new XmlSerializer(typeof(NetworkArchitecture), new Type[] {
+            var serializer = new XmlCallbackSerializer(typeof(Problem), new Type[] {
+                    typeof(NetworkArchitecture),
                     typeof(ActivationLayer), typeof(Convolution1DLayer), typeof(Convolution2DLayer), typeof(Convolution3DLayer), typeof(DenseLayer),
                     typeof(DropoutLayer), typeof(FlattenLayer), typeof(ReshapeLayer), typeof(MergeLayer),
                     typeof(ActivationFunctionParameter), typeof(DoubleParameter), typeof(IntParameter),
@@ -35,7 +43,8 @@ namespace NNGui.Data
         }
         public static Problem Import(List<InputData> inputs)
         {
-            var serializer = new XmlSerializer(typeof(NetworkArchitecture), new Type[] {
+            var serializer = new XmlCallbackSerializer(typeof(Problem), new Type[] {
+                    typeof(NetworkArchitecture),
                     typeof(ActivationLayer), typeof(Convolution1DLayer), typeof(Convolution2DLayer), typeof(Convolution3DLayer), typeof(DenseLayer),
                     typeof(DropoutLayer), typeof(FlattenLayer), typeof(ReshapeLayer), typeof(MergeLayer),
                     typeof(ActivationFunctionParameter), typeof(DoubleParameter), typeof(IntParameter),
@@ -66,6 +75,11 @@ namespace NNGui.Data
                     return result;
                 }
             }
+        }
+
+        public void OnDeserialization(object sender)
+        {
+            NetworkArchitecture.Problem = this;
         }
     }
 }

@@ -41,7 +41,6 @@ public:
 	~CLink();
 
 	LinkType getLinkType() const { return m_linkType; }
-	const CParameterBaseInteface* getParameterByName(const string name) const;
 	const vector<CParameterBaseInteface*> getParameters() const { return m_parameters; }
 
 	const string& getId() const { return m_id; }
@@ -52,6 +51,21 @@ public:
 
 	void setParentChain(CChain* pParentChain) { m_pParentChain = pParentChain; }
 	const CChain* getParentChain() const { return m_pParentChain; }
+
+	template <typename T = CParameterBaseInteface>
+	const T* getParameterByName(const string name) const
+	{
+		for each (auto item in this->m_parameters)
+		{
+			if (item->getName()._Equal(name))
+			{
+				return (T*)item;
+			}
+		}
+
+		return nullptr;
+	}
+
 
 	CLink* getNextLink() const;
 	CLink* getPreviousLink() const;

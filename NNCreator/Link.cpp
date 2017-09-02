@@ -9,6 +9,7 @@
 #include "Network.h"
 #include "Parameter.h"
 #include "ParameterValues.h"
+#include "Problem.h"
 
 #include "CNTKWrapper.h"
 
@@ -19,19 +20,6 @@ CLink::CLink()
 
 CLink::~CLink()
 {
-}
-
-const CParameterBaseInteface* CLink::getParameterByName(const string name) const
-{
-	for each (auto item in this->m_parameters)
-	{
-		if (item->getName()._Equal(name))
-		{
-			return item;
-		}
-	}
-
-	return NULL;
 }
 
 CLink::CLink(tinyxml2::XMLElement* pParentNode)
@@ -78,10 +66,9 @@ std::vector<const CLink*> CLink::getDependencies() const
 
 	if (m_linkType == LinkType::MergeLayer)
 	{
-		auto dependenciesList = (CLinkConnectionListParameter*)getParameterByName("Links");
+		auto dependenciesList = getParameterByName<CLinkConnectionListParameter>("Links");
 		for each (CLinkConnection* var in dependenciesList->getValue())
 			result.push_back(m_pParentChain->getParentNetworkArchitecture()->getLinkById(var->getTargetId().c_str()));
-
 	}
 	else
 	{
@@ -104,32 +91,35 @@ void CLink::createCNTKFunctionPtr(vector<const CLink*> dependencies)
 	auto device = CNTK::DeviceDescriptor::CPUDevice();
 	switch (m_linkType)
 	{
+	case LinkType::InputLayer:
+		m_functionPtr = CNTKWrapper::InputLayer(this, dependencies, device);
+		break;
 	case LinkType::ActivationLayer:
-		CNTKWrapper::ActivationLayer(this, dependencies, device);
+		m_functionPtr = CNTKWrapper::ActivationLayer(this, dependencies, device);
 		break;
 	case LinkType::Convolution1DLayer:
-		CNTKWrapper::Convolution1DLayer(this, dependencies, device);
+		m_functionPtr = CNTKWrapper::Convolution1DLayer(this, dependencies, device);
 		break;
 	case LinkType::Convolution2DLayer:
-		CNTKWrapper::Convolution2DLayer(this, dependencies, device);
+		m_functionPtr = CNTKWrapper::Convolution2DLayer(this, dependencies, device);
 		break;
 	case LinkType::Convolution3DLayer:
-		CNTKWrapper::Convolution3DLayer(this, dependencies, device);
+		m_functionPtr = CNTKWrapper::Convolution3DLayer(this, dependencies, device);
 		break;
 	case LinkType::DenseLayer:
-		CNTKWrapper::DenseLayer(this, dependencies, device);
+		m_functionPtr = CNTKWrapper::DenseLayer(this, dependencies, device);
 		break;
 	case LinkType::DropoutLayer:
-		CNTKWrapper::DropoutLayer(this, dependencies, device);
+		m_functionPtr = CNTKWrapper::DropoutLayer(this, dependencies, device);
 		break;
 	case LinkType::FlattenLayer:
-		CNTKWrapper::FlattenLayer(this, dependencies, device);
+		m_functionPtr = CNTKWrapper::FlattenLayer(this, dependencies, device);
 		break;
 	case LinkType::ReshapeLayer:
-		CNTKWrapper::ReshapeLayer(this, dependencies, device);
+		m_functionPtr = CNTKWrapper::ReshapeLayer(this, dependencies, device);
 		break;
 	case LinkType::MergeLayer:
-		CNTKWrapper::MergeLayer(this, dependencies, device);
+		m_functionPtr = CNTKWrapper::MergeLayer(this, dependencies, device);
 		break;
 	}
 }

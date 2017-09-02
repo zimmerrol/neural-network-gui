@@ -51,10 +51,10 @@ CActivationFunctionParameter::CActivationFunctionParameter(tinyxml2::XMLElement*
 		throw "activation function has not been recognized";
 }
 
-CInputDataParameter::CInputDataParameter(tinyxml2::XMLElement* pParentNode) : CParameterBase<CInputDataValue>(pParentNode)
+CInputDataParameter::CInputDataParameter(tinyxml2::XMLElement* pParentNode) : CParameterBase<string>(pParentNode)
 {
 	tinyxml2::XMLElement *pNode = pParentNode->FirstChildElement(XML_TAG_Value);
-	m_value = *CInputDataValue::getInstance(pNode);
+	m_value = pNode->GetText();
 }
 
 CIntParameter::CIntParameter(tinyxml2::XMLElement* pParentNode) : CParameterBase<int>(pParentNode)

@@ -12,10 +12,21 @@
 #define XML_TAG_Id "ID"
 #define XML_TAG_ParameterBase "ParameterBase"
 
+#define XML_TAG_Shape "Shape"
+
+#define XML_TAG_IntTuple1D "IntTuple1D"
+#define XML_TAG_IntTuple2D "IntTuple2D"
+#define XML_TAG_IntTuple3D "IntTuple3D"
+#define XML_TAG_IntTuple4D "IntTuple4D"
+
 #define XML_TAG_Tuple_1 "x1"
 #define XML_TAG_Tuple_2 "x2"
 #define XML_TAG_Tuple_3 "x3"
 #define XML_TAG_Tuple_4 "x4"
+
+#define XML_TAG_Problem "Problem"
+#define XML_TAG_Inputs "Inputs"
+#define XML_TAG_InputData "InputData"
 
 #define XML_TAG_LinkConnection "LinkConnection"
 

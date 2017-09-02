@@ -12,6 +12,7 @@
 #include "Network.h"
 #include "Parameter.h"
 #include "ParameterValues.h"
+#include "Problem.h"
 
 
 using namespace std;
@@ -23,12 +24,13 @@ int main()
 	doc.LoadFile("C:\\Users\\Roland\\Documents\\Visual Studio 2017\\Projects\\neural-network-gui\\NNGui\\bin\\Debug\\network.xml");
 	if (doc.Error() == tinyxml2::XML_SUCCESS)
 	{
-		tinyxml2::XMLElement *pRoot = doc.FirstChildElement(XML_TAG_NETWORK_ARCHITECTURE);
+		tinyxml2::XMLElement *pRoot = doc.FirstChildElement(XML_TAG_Problem);
 		if (pRoot)
 		{
-			auto networkArchitecture = CNetworkArchitecture::getInstance(pRoot);
-			auto param = (CInputDataParameter*)(networkArchitecture->getChains().at(0)->getChainLinks().at(0)->getParameterByName("Input Data"));
-			auto model = networkArchitecture->createNetwork();
+			auto problem = CProblem::getInstance(pRoot);
+			auto networkArchitecture = problem->getNetworkArchitecture();
+			auto param = networkArchitecture->getChains().at(0)->getChainLinks().at(0)->getParameterByName<CInputDataParameter>("Input Data");
+			auto model = problem->createNetwork();
 			cout << networkArchitecture;
 		}
 	}
