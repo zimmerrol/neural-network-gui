@@ -22,5 +22,19 @@ namespace NNGui.Data.Links
         }
 
         public override string TypeName { get { return "Input Layer"; } }
+
+        public override void ValidateInputCompatibility()
+        {
+            IsInputCompatible = true;
+        }
+
+        public override int? GetTensorRank()
+        {
+            var idv = (Parameters[0] as InputDataParameter).InputDataValue;
+            if (idv == null)
+                return null;
+
+            return idv.Shape.Dimension;
+        }
     }
 }

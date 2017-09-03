@@ -22,7 +22,7 @@ namespace NNGui.Data.Parameters
         {
             get
             {
-                foreach (var item in Parent.Chain.NetworkArchitecture.Problem.Inputs)
+                foreach (var item in Parent.ParentChain.NetworkArchitecture.Problem.Inputs)
                 {
                     if (item.ID.Equals(Value))
                     {

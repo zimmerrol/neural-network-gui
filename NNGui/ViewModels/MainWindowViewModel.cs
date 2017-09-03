@@ -85,10 +85,12 @@ namespace NNGui.ViewModels
                 }
                 else
                 {
-                    item.Chain.ChainLinks.Remove(item);
-                    item.Chain = targetChain;
-                    item.Chain.ChainLinks.Insert(dropInfo.InsertIndex, item);
+                    item.ParentChain.ChainLinks.Remove(item);
+                    item.ParentChain = targetChain;
+                    item.ParentChain.ChainLinks.Insert(dropInfo.InsertIndex, item);
                 }
+
+                item.ParentChain.NetworkArchitecture.ValidateInputCompatibility();
             }
         }
     }

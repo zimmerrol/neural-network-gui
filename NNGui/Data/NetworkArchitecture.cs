@@ -27,6 +27,12 @@ namespace NNGui.Data
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        public void ValidateInputCompatibility()
+        {
+            foreach (var item in Chains)
+                item.ValidateInputCompatibility();
+        }
+
         public ObservableCollection<Chain> Chains { get; }
 
         [XmlIgnore]

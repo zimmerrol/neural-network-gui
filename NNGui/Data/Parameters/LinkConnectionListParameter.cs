@@ -139,7 +139,7 @@ namespace NNGui.Data.Parameters
             {
                 bool itemFound = false;
                 //find target object using the ID
-                foreach (var chain in Parent.Chain.NetworkArchitecture.Chains)
+                foreach (var chain in Parent.ParentChain.NetworkArchitecture.Chains)
                 {
                     foreach (var link in chain.ChainLinks)
                     {

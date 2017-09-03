@@ -22,5 +22,34 @@ namespace NNGui.Data.Links
         }
 
         public override string TypeName { get { return "Reshape Layer"; } }
+
+        public override void ValidateInputCompatibility()
+        {
+            var inputLink = GetPreviousLink();
+            if (inputLink == null)
+            {
+                IsInputCompatible = false;
+                return;
+            }
+
+            //TODO: add real code here!
+            IsInputCompatible = true;
+        }
+
+        public override int? GetTensorRank()
+        {
+            var itp = Parameters[0] as IntTuple4DParameter;
+            int rank = 0;
+            if (itp.Value.x1 != 0)
+                rank++;
+            if (itp.Value.x2 != 0)
+                rank++;
+            if (itp.Value.x3 != 0)
+                rank++;
+            if (itp.Value.x4 != 0)
+                rank++;
+
+            return rank;
+        }
     }
 }

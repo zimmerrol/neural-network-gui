@@ -24,8 +24,31 @@ namespace NNGui.Data.Links
     [XmlInclude(typeof(ReshapeLayer))]
     [XmlInclude(typeof(MergeLayer))]
     [Serializable]
-    public abstract class LinkBase : IDeserializationCallback
+    public abstract class LinkBase : IDeserializationCallback, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public abstract void ValidateInputCompatibility();
+
+        private bool _isInputCompatible;
+        [XmlIgnore]
+        public bool IsInputCompatible
+        {
+            get
+            {
+                return _isInputCompatible;
+            }
+            set
+            {
+                _isInputCompatible = value;
+                OnPropertyChanged("IsInputCompatible");
+            }
+        }
+
         protected LinkBase()
         {
             Parameters = new ObservableCollection<ParameterBase>();
@@ -34,7 +57,7 @@ namespace NNGui.Data.Links
         }
         public LinkBase(Chain parent) : this()
         {
-            Chain = parent;
+            ParentChain = parent;
         }
 
         public LinkBase(Chain parent, string name) : this(parent)
@@ -46,34 +69,60 @@ namespace NNGui.Data.Links
         {
             //generate a 8 character long ID for this link
             //TODO: remove this and replace it with something more robust
-            ID = GetHashString(DateTime.Now.ToFileTimeUtc().ToString() + Regex.Replace(TypeName, @"\s+", "")).Substring(0, 8);
+            ID = Utility.GetHashString(DateTime.Now.ToFileTimeUtc().ToString() + Regex.Replace(TypeName, @"\s+", "")).Substring(0, 8);
         }
 
+        private Chain _parentChain;
         [XmlIgnore]
-        public Chain Chain { get; internal set; }
+        public Chain ParentChain
+        {
+            get
+            {
+                return _parentChain;
+            }
+            internal set
+            {
+                _parentChain = value;
+                OnPropertyChanged("ParentChain");
+            }
+        }
 
         public ObservableCollection<ParameterBase> Parameters { get; }
+
+        private string _name;
         [XmlAttribute]
-        public string Name { get; set; }
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                _name = value;
+                OnPropertyChanged("Name");
+            }
+        }
+
         [XmlAttribute]
         public virtual string TypeName { get; }
 
+        public abstract int? GetTensorRank();
+
+
+        private string _id;
         [XmlAttribute]
-        public string ID { get; set; }
-
-        public static byte[] GetHash(string inputString)
+        public string ID
         {
-            HashAlgorithm algorithm = MD5.Create();  //or use SHA256.Create();
-            return algorithm.ComputeHash(Encoding.UTF8.GetBytes(inputString));
-        }
-
-        public static string GetHashString(string inputString)
-        {
-            StringBuilder sb = new StringBuilder();
-            foreach (byte b in GetHash(inputString))
-                sb.Append(b.ToString("X2"));
-
-            return sb.ToString();
+            get
+            {
+                return _id;
+            }
+            set
+            {
+                _id = value;
+                OnPropertyChanged("ID");
+            }
         }
 
         public void OnDeserialization(object sender)
@@ -82,6 +131,14 @@ namespace NNGui.Data.Links
             {
                 item.Parent = this;
             }
+        }
+
+        public LinkBase GetPreviousLink()
+        {
+            int index = ParentChain.ChainLinks.IndexOf(this);
+            if (index == 0)
+                return null;
+            return ParentChain.ChainLinks[index - 1];
         }
     }
 

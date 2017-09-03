@@ -100,6 +100,7 @@ namespace NNGui
                 }
 
                 cn.ChainLinks.Insert(insertIndex, link);
+                ((MainWindowViewModel)DataContext).Problem.NetworkArchitecture.ValidateInputCompatibility();
             }
 
             e.Handled = true;
@@ -109,14 +110,15 @@ namespace NNGui
         {
             var cn = e.Parameter as Chain;
             cn.NetworkArchitecture.Chains.Remove(cn);
+            ((MainWindowViewModel)DataContext).Problem.NetworkArchitecture.ValidateInputCompatibility();
             e.Handled = true;
         }
 
         private void RemoveChainLinkCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             var lk = e.Parameter as LinkBase;
-            lk.Chain.ChainLinks.Remove(lk);
-
+            lk.ParentChain.ChainLinks.Remove(lk);
+            ((MainWindowViewModel)DataContext).Problem.NetworkArchitecture.ValidateInputCompatibility();
             e.Handled = true;
         }
 
@@ -133,6 +135,6 @@ namespace NNGui
         private void ImportButton_Click(object sender, RoutedEventArgs e)
         {
             ((MainWindowViewModel)DataContext).Problem = Problem.Import(MainWindowViewModel.GetSampleInputData());
-        }    
+        }
     }
 }

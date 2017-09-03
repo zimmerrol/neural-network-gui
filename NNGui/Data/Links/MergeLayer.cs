@@ -22,5 +22,42 @@ namespace NNGui.Data.Links
         }
 
         public override string TypeName { get { return "Merge Layer"; } }
+
+        public override void ValidateInputCompatibility()
+        {
+            var list = (Parameters[0] as LinkConnectionListParameter).Value;
+            if (list.Count > 0)
+            {
+                //check the ranks
+                int? rawRank = list[0].Target.GetTensorRank();
+                if (!rawRank.HasValue)
+                {
+                    IsInputCompatible = false;
+                    return;
+                }
+                int rank = rawRank.Value;
+                for (int i = 1; i < list.Count; i++)
+                {
+                    if (!rawRank.Equals(list[i].Target.GetTensorRank()))
+                    {
+                        IsInputCompatible = false;
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                IsInputCompatible = true;
+            }
+        }
+
+        public override int? GetTensorRank()
+        {
+            if ((Parameters[0] as LinkConnectionListParameter).Value.Count > 0)
+            {
+                return (Parameters[0] as LinkConnectionListParameter).Value[0].Target.GetTensorRank();
+            }
+            return null;
+        }
     }
 }

@@ -16,6 +16,7 @@ namespace NNGui.Data.Tuple
     public abstract class IntTupleBase
     {
         public abstract void FromString(string value, string delimiter);
+        public abstract int Dimension { get; }
     }
     [Serializable]
     [XmlRoot("IntTuple1D")]
@@ -28,6 +29,8 @@ namespace NNGui.Data.Tuple
         }
 
         public int x1 { get; set; } = 0;
+
+        public override int Dimension { get { return 1; } }
 
         public override string ToString()
         {
@@ -53,6 +56,8 @@ namespace NNGui.Data.Tuple
 
         public int x1 { get; set; } = 0;
         public int x2 { get; set; } = 0;
+
+        public override int Dimension { get { return 2; } }
 
         public override string ToString()
         {
@@ -81,6 +86,8 @@ namespace NNGui.Data.Tuple
         public int x1 { get; set; } = 0;
         public int x2 { get; set; } = 0;
         public int x3 { get; set; } = 0;
+
+        public override int Dimension { get { return 3; } }
 
         public override string ToString()
         {
@@ -113,6 +120,8 @@ namespace NNGui.Data.Tuple
         public int x2 { get; set; } = 0;
         public int x3 { get; set; } = 0;
         public int x4 { get; set; } = 0;
+
+        public override int Dimension { get { return 4; } }
 
         public override string ToString()
         {

@@ -40,11 +40,17 @@ namespace NNGui.Data
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        public void ValidateInputCompatibility()
+        {
+            foreach (var item in ChainLinks)
+                item.ValidateInputCompatibility();
+        }
+
         public void OnDeserialization(object sender)
         {
             foreach (var link in ChainLinks)
             {
-                link.Chain = this;
+                link.ParentChain = this;
             }
         }
 

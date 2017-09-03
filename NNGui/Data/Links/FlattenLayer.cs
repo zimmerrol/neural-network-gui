@@ -19,5 +19,15 @@ namespace NNGui.Data.Links
         public FlattenLayer(Chain parent, string name) : base(parent, name) { }
 
         public override string TypeName { get { return "Flatten Layer"; } }
+
+        public override void ValidateInputCompatibility()
+        {
+            IsInputCompatible = true;
+        }
+
+        public override int? GetTensorRank()
+        {
+            return 1;
+        }
     }
 }

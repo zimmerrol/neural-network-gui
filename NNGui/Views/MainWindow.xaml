@@ -26,6 +26,7 @@
     </Window.DataContext>
 
     <Window.Resources>
+        <cv:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
         <cv:InvertedBooleanToVisibilityConverter x:Key="InvertedBooleanToVisibilityConverter" />
         <cv:IntTupleConverter x:Key="IntTupleConverter" />
         <cv:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
@@ -62,7 +63,7 @@
                     <BeginStoryboard Storyboard="{StaticResource PartiallyFadeOutStoryboard}" x:Name="PartiallyFadeOutStoryboard"/>
                 </EventTrigger>
 
-                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=StackPanel}, Path=IsMouseOver, NotifyOnSourceUpdated=True}" Value="True">
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsMouseOver, NotifyOnSourceUpdated=True}" Value="True">
                     <DataTrigger.EnterActions>
                         <RemoveStoryboard BeginStoryboardName="PartiallyFadeOutStoryboard" />
                         <RemoveStoryboard BeginStoryboardName="FadeOutStoryboard" />
@@ -71,13 +72,8 @@
                     <DataTrigger.ExitActions>
                         <RemoveStoryboard BeginStoryboardName="PartiallyFadeInStoryboard" />
                         <RemoveStoryboard BeginStoryboardName="FadeInStoryboard" />
+                        <RemoveStoryboard BeginStoryboardName="PartiallyFadeOutStoryboard" />
                         <BeginStoryboard Storyboard="{StaticResource FadeOutStoryboard}" x:Name="FadeOutStoryboard"/>
-                    </DataTrigger.ExitActions>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsMouseOver, NotifyOnSourceUpdated=True}" Value="True">
-                    <DataTrigger.ExitActions>
-                        <RemoveStoryboard BeginStoryboardName="PartiallyFadeInStoryboard" />
-                        <RemoveStoryboard BeginStoryboardName="FadeInStoryboard" />
                     </DataTrigger.ExitActions>
                 </DataTrigger>
 
@@ -217,9 +213,37 @@
                                             <ListBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <Expander IsExpanded="False">
+                                                        <Expander.Style>
+                                                            <Style TargetType="Expander">
+                                                                <Setter Property="Background" Value="#00FFFFFF"/>
+                                                                <Setter Property="ToolTip">
+                                                                    <Setter.Value>
+                                                                        <ToolTip Visibility="Collapsed" />
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding IsInputCompatible}" Value="False">
+                                                                        <DataTrigger.Setters>
+                                                                            <Setter Property="Background" Value="#22DE3C7C" />
+                                                                            <Setter Property="ToolTip" Value="Output of the input of this link&#10;is not compatible with this link" />
+                                                                        </DataTrigger.Setters>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Expander.Style>
                                                         <Expander.Header>
-                                                            <TextBlock Visibility="{Binding IsExpanded, RelativeSource={RelativeSource AncestorType={x:Type Expander}, Mode=FindAncestor}, 
+                                                            <Grid HorizontalAlignment="Stretch" Width="135">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="*"/>
+                                                                    <ColumnDefinition Width="20"/>
+                                                                </Grid.ColumnDefinitions>
+
+                                                                <TextBlock Grid.Column="0" VerticalAlignment="Center" Visibility="{Binding IsExpanded, RelativeSource={RelativeSource AncestorType={x:Type Expander}, Mode=FindAncestor}, 
                                                                        Converter={StaticResource InvertedBooleanToVisibilityConverter }}" Text="{Binding Name}" />
+                                                                <Button Grid.Column="1" Content="x" FontSize="12" Foreground="White" Template="{StaticResource DeleteButtonTemplate}"
+                                                                        Style="{StaticResource DeleteButtonStyle}" Command="local:Commands.RemoveChainLinkCommand"
+                                                                        CommandParameter="{Binding }"/>
+                                                            </Grid>
                                                         </Expander.Header>
                                                         <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" Margin="5 0 0 0">
                                                             <Grid>
@@ -231,16 +255,7 @@
                                                                     <RowDefinition />
                                                                     <RowDefinition />
                                                                 </Grid.RowDefinitions>
-                                                                <Grid Margin="0 2">
-                                                                    <Grid.ColumnDefinitions>
-                                                                        <ColumnDefinition />
-                                                                        <ColumnDefinition Width="20"/>
-                                                                    </Grid.ColumnDefinitions>
-                                                                    <TextBlock Text="Name:" Foreground="#222222" FontSize="11" VerticalAlignment="Bottom"/>
-                                                                    <Button Grid.Column="1" Content="x" FontSize="12" Foreground="White" Template="{StaticResource DeleteButtonTemplate}"
-                                                                        Style="{StaticResource DeleteButtonStyle}" Command="local:Commands.RemoveChainLinkCommand"
-                                                                        CommandParameter="{Binding }"/>
-                                                                </Grid>
+                                                                <TextBlock Grid.Row="0" Text="Name:" Foreground="#222222" FontSize="11" VerticalAlignment="Bottom"/>
                                                                 <TextBox Grid.Row="1" Margin="4 0" Text="{Binding Name, Mode=TwoWay, NotifyOnSourceUpdated=True}" />
                                                                 <TextBlock Grid.Row="2" Text="ID:" Margin="0 4 0 2" Foreground="#222" FontSize="11" VerticalAlignment="Bottom"/>
                                                                 <TextBlock Grid.Row="3" Margin="4 0" Text="{Binding ID}"/>
@@ -258,21 +273,25 @@
                                                                                     <RowDefinition />
                                                                                 </Grid.RowDefinitions>
                                                                                 <Label Content="{Binding Name, Mode=OneWay}" />
-                                                                                <ListBox ItemsSource="{Binding RawValue}" MinHeight="30px" 
+                                                                                <ListBox ItemsSource="{Binding RawValue}" MinHeight="30px" HorizontalContentAlignment="Stretch"
                                                                                      dd:DragDrop.IsDragSource="False" dd:DragDrop.IsDropTarget="True"
                                                                                      dd:DragDrop.DropHandler="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.DDHandler}">
                                                                                     <ListBox.ItemTemplate>
                                                                                         <DataTemplate>
-                                                                                            <StackPanel Orientation="Horizontal">
+                                                                                            <Grid HorizontalAlignment="Stretch" Background="White">
+                                                                                                <Grid.ColumnDefinitions>
+                                                                                                    <ColumnDefinition />
+                                                                                                    <ColumnDefinition Width="20"/>
+                                                                                                </Grid.ColumnDefinitions>
                                                                                                 <StackPanel Orientation="Vertical">
                                                                                                     <TextBlock Grid.Row="2" Text="Name:" Margin="0 4 0 2" Foreground="#222" FontSize="11" VerticalAlignment="Bottom"/>
                                                                                                     <TextBlock Text="{Binding Name}" />
                                                                                                     <TextBlock Grid.Row="2" Text="ID:" Margin="0 4 0 2" Foreground="#222" FontSize="11" VerticalAlignment="Bottom"/>
                                                                                                     <TextBlock Text="{Binding ID}" />
                                                                                                 </StackPanel>
-                                                                                                <Button Style="{StaticResource DeleteButtonStyle}" Template="{StaticResource DeleteButtonTemplate}"
+                                                                                                <Button Grid.Column="1" Style="{StaticResource DeleteButtonStyle}" Template="{StaticResource DeleteButtonTemplate}"
                                                                                                     Command="local:Commands.RemoveLinkConnectionCommand" CommandParameter="{Binding DataContext,RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"/>
-                                                                                            </StackPanel>
+                                                                                            </Grid>
                                                                                         </DataTemplate>
                                                                                     </ListBox.ItemTemplate>
                                                                                 </ListBox>
@@ -386,6 +405,22 @@
                                                     </StackPanel>
                                                 </ControlTemplate>
                                             </ListBox.Template>
+                                            <ListBox.Resources>
+                                                <Style TargetType="ListBoxItem">
+                                                    <Setter Property="Control.Background" Value="White" />
+                                                    <Style.Triggers>
+                                                        <Trigger Property="Control.IsMouseOver" Value="True">
+                                                            <Setter Property="Control.BorderBrush" Value="#FF26A0DA" />
+                                                            <Setter Property="Control.Background" Value="#167CBEDE" />
+                                                        </Trigger>
+                                                        <Trigger Property="Control.IsKeyboardFocusWithin" Value="True">
+                                                            <Setter Property="Control.BorderBrush" Value="#FF26A0DA" />
+                                                            <Setter Property="Control.Background" Value="#167CBEDE" />
+                                                        </Trigger>
+
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ListBox.Resources>
                                         </ListBox>
                                     </StackPanel>
                                 </Border>
@@ -400,7 +435,7 @@
                         <ColumnDefinition MaxWidth="200px" />
                         <ColumnDefinition  MaxWidth="200px" />
                     </Grid.ColumnDefinitions>
-                   
+
                     <StackPanel Grid.Column="1">
                         <TextBlock Text="Optimizer:"  FontSize="11" Foreground="#222" />
                         <ComboBox Margin="5 2" />
@@ -408,7 +443,7 @@
                         <TextBlock Text="Parameters" Margin="5 0 0 0" FontSize="11" Foreground="#222" />
                     </StackPanel>
 
-                   
+
 
                     <StackPanel>
                         <TextBlock Text="Output Layer:" FontSize="11" Foreground="#222" />

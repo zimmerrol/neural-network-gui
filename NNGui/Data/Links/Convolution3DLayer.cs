@@ -25,5 +25,22 @@ namespace NNGui.Data.Links
         }
 
         public override string TypeName { get { return "3D Convolution Layer"; } }
+
+        public override void ValidateInputCompatibility()
+        {
+            LinkBase previousLink = GetPreviousLink();
+            if (previousLink == null)
+            {
+                IsInputCompatible = false;
+                return;
+            }
+
+            IsInputCompatible = (previousLink.GetTensorRank() == 4);
+        }
+
+        public override int? GetTensorRank()
+        {
+            return 4;
+        }
     }
 }
