@@ -26,6 +26,8 @@ public:
 	vector<CNTK::FunctionPtr>& getFunctionPtrs() { return m_functionPtrs; }
 	CNTK::FunctionPtr getNetworkFunctionPtr() { return m_networkFunctionPtr; }
 	CNTK::FunctionPtr getLossFunctionPtr() { return m_lossFunctionPtr; }
+	CNTK::TrainerPtr getTrainer() { return m_trainer; }
+	CNTK::Variable getTargetOutput() { return m_targetOutput; }
 
 	void buildNetworkFunctionPtr(const COptimizerSetting* optimizer);
 	void save(string fileName);

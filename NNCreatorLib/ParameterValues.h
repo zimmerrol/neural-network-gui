@@ -14,7 +14,8 @@ enum class ActivationFunction
 	relu,
 	tanh,
 	hard_sigmoid,
-	softmax
+	softmax,
+	linear
 };
 class CIntTuple
 {

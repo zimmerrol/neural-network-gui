@@ -138,8 +138,8 @@ CNTK::FunctionPtr CNTKWrapper::MergeLayer(const CLink * pLink, vector<const CLin
 		for each(auto pItem in dependencies)
 			inputs.push_back((CNTK::Variable)pItem->getFunctionPtr());
 
-		//TODO: add support for different axes
-		auto axis = CNTK::Axis::Axis(0);
+		auto axisIndex = pLink->getParameterByName<CIntParameter>("Axis")->getValue();
+		auto axis = CNTK::Axis::Axis(axisIndex);
 		return Splice(inputs, axis);
 	}
 
@@ -152,12 +152,65 @@ CNTK::TrainerPtr CNTKWrapper::CreateOptimizer(const COptimizerSetting * pOptimiz
 	switch (pOptimizerSetting->getOptimizerType())
 	{
 	case OptimizerType::SGD:
-		//auto lr = CNTK::LearningRatePerMinibatchSchedule(pOptimizerSetting->getParameterByKey("Learning rate")->getValue());
-		LearningRatePerMinibatchSchedule lr = 0.2;
-		pLearner = CNTK::SGDLearner(output->Parameters(), lr);
+		pLearner = CNTK::SGDLearner(output->Parameters(),
+			LearningRatePerMinibatchSchedule(pOptimizerSetting->getParameterByKey("Learning rate")->getValue())
+		);
+		break;
+
+	case OptimizerType::MomentumSGD:
+		pLearner = CNTK::MomentumSGDLearner(output->Parameters(),
+			LearningRatePerMinibatchSchedule(pOptimizerSetting->getParameterByKey("Learning rate")->getValue()),
+			LearningRatePerMinibatchSchedule(pOptimizerSetting->getParameterByKey("Momentum")->getValue())
+		);
+		break;
+
+	case OptimizerType::Nesterov:
+		pLearner = CNTK::NesterovLearner(output->Parameters(),
+			LearningRatePerMinibatchSchedule(pOptimizerSetting->getParameterByKey("Learning rate")->getValue()),
+			LearningRatePerMinibatchSchedule(pOptimizerSetting->getParameterByKey("Momentum")->getValue())
+		); break;
+
+	case OptimizerType::FSAdaGrad:
+		pLearner = CNTK::FSAdaGradLearner(output->Parameters(),
+			LearningRatePerMinibatchSchedule(pOptimizerSetting->getParameterByKey("Learning rate")->getValue()),
+			LearningRatePerMinibatchSchedule(pOptimizerSetting->getParameterByKey("Momentum")->getValue()),
+			DefaultUnitGainValue(),
+			LearningRatePerMinibatchSchedule(pOptimizerSetting->getParameterByKey("Variance momentum")->getValue())
+		); break;
+
+	case OptimizerType::Adam:
+		pLearner = CNTK::AdamLearner(output->Parameters(),
+			LearningRatePerMinibatchSchedule(pOptimizerSetting->getParameterByKey("Learning rate")->getValue()),
+			LearningRatePerMinibatchSchedule(pOptimizerSetting->getParameterByKey("Momentum")->getValue()),
+			DefaultUnitGainValue(),
+			LearningRatePerMinibatchSchedule(pOptimizerSetting->getParameterByKey("Variance momentum")->getValue()),
+			pOptimizerSetting->getParameterByKey("Epsilon")->getValue()
+		); break;
+
+	case OptimizerType::AdaGrad:
+		pLearner = CNTK::AdaGradLearner(output->Parameters(),
+			LearningRatePerMinibatchSchedule(pOptimizerSetting->getParameterByKey("Learning rate")->getValue())
+		); break;
+
+	case OptimizerType::RMSProp:
+		pLearner = CNTK::RMSPropLearner(output->Parameters(),
+			LearningRatePerMinibatchSchedule(pOptimizerSetting->getParameterByKey("Learning rate")->getValue()),
+			pOptimizerSetting->getParameterByKey("Gamma")->getValue(),
+			pOptimizerSetting->getParameterByKey("Inc")->getValue(),
+			pOptimizerSetting->getParameterByKey("Dec")->getValue(),
+			pOptimizerSetting->getParameterByKey("Max")->getValue(),
+			pOptimizerSetting->getParameterByKey("Min")->getValue()
+		); break;
+
+	case OptimizerType::AdaDelta:
+		pLearner = CNTK::AdaDeltaLearner(output->Parameters(),
+			LearningRatePerMinibatchSchedule(pOptimizerSetting->getParameterByKey("Learning rate")->getValue()),
+			pOptimizerSetting->getParameterByKey("Rho")->getValue(),
+			pOptimizerSetting->getParameterByKey("Epsilon")->getValue()
+		); break;
 	}
 
-	return CreateTrainer(output, lossFunction, { pLearner });
+	return CreateTrainer(output, lossFunction, lossFunction, { pLearner });
 }
 
 
@@ -186,5 +239,7 @@ FunctionPtr CNTKWrapper::Internal::applyActivationFunction(FunctionPtr pInput, A
 		throw "not supported at the moment";
 	case ActivationFunction::tanh:
 		return CNTK::Tanh(pInput);
+	case ActivationFunction::linear:
+		return pInput;
 	}
 }

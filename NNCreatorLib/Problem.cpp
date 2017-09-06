@@ -46,7 +46,6 @@ CProblem::CProblem()
 {
 }
 
-
 CProblem::~CProblem()
 {
 }
@@ -91,7 +90,6 @@ CProblem * CProblem::loadFromString(std::string content)
 
 	return nullptr;
 }
-
 
 CNetwork * CProblem::createNetwork()
 {

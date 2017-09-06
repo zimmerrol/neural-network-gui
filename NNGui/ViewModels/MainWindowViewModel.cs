@@ -36,8 +36,9 @@ namespace NNGui.ViewModels
         public static List<InputData> GetSampleInputData()
         {
             var result = new List<InputData>();
-            result.Add(new Data.Parameters.InputData("State-Images", "State Images", new IntTuple3D(84, 84, 4), "The state conisting out of the last 4 images."));
-            result.Add(new Data.Parameters.InputData("State-RAM", "State RAM", new IntTuple1D(1024 * 1024), "The state conisting out of the current RAM."));
+            //result.Add(new Data.Parameters.InputData("State-Images", "State Images", new IntTuple3D(84, 84, 4), "The state conisting out of the last 4 images."));
+            //result.Add(new Data.Parameters.InputData("State-RAM", "State RAM", new IntTuple1D(1024 * 1024), "The state conisting out of the current RAM."));
+            result.Add(new InputData("Numbers", "Numbers", new IntTuple1D(2), "The numbers which should wil be added."));
             return result;
         }
 

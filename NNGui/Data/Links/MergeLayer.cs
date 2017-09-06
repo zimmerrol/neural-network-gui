@@ -18,6 +18,7 @@ namespace NNGui.Data.Links
 
         public MergeLayer(Chain parent, string name) : base(parent, name)
         {
+            Parameters.Add(new IntParameter("Axis", this));
             Parameters.Add(new LinkConnectionListParameter("Links", this));
         }
 
@@ -28,7 +29,7 @@ namespace NNGui.Data.Links
             IsInputCompatible = true;
 
             //now check, of we have to make this false again
-            var list = (Parameters[0] as LinkConnectionListParameter).Value;
+            var list = GetParameterByName<LinkConnectionListParameter>("Links").Value;
             if (list.Count > 0)
             {
                 //check the ranks
@@ -52,9 +53,10 @@ namespace NNGui.Data.Links
 
         public override int? GetTensorRank()
         {
-            if ((Parameters[0] as LinkConnectionListParameter).Value.Count > 0)
+            var list = GetParameterByName<LinkConnectionListParameter>("Links").Value;
+            if (list.Count > 0)
             {
-                return (Parameters[0] as LinkConnectionListParameter).Value[0].Target.GetTensorRank();
+                return list[0].Target.GetTensorRank();
             }
             return null;
         }

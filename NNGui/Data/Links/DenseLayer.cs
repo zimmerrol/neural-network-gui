@@ -33,7 +33,8 @@ namespace NNGui.Data.Links
                 return;
             }
 
-            IsInputCompatible = (previousLink.GetTensorRank() == 1);
+            var units = GetParameterByName<IntParameter>("Units").Value;
+            IsInputCompatible = (previousLink.GetTensorRank() == 1) && (units > 0);
         }
 
         public override int? GetTensorRank()

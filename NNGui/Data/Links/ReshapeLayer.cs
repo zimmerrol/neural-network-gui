@@ -38,7 +38,7 @@ namespace NNGui.Data.Links
 
         public override int? GetTensorRank()
         {
-            var itp = Parameters[0] as IntTuple4DParameter;
+            var itp = GetParameterByName<IntTuple4DParameter>("Shape");
             int rank = 0;
             if (itp.Value.x1 != 0)
                 rank++;

@@ -66,7 +66,7 @@ namespace NNGui
                         }
                         insertIndex = 0;
                         link = new Data.Links.InputLayer(cn, String.Format("Input Layer"));
-                        ((InputDataParameter)((InputLayer)link).Parameters[0]).InputDataValue = ((MainWindowViewModel)DataContext).Problem.Inputs[0];
+                        ((InputLayer)link).GetParameterByName<InputDataParameter>("Input Data").InputDataValue = ((MainWindowViewModel)DataContext).Problem.Inputs[0];
                         break;
                     case LinkType.ActivationLayer:
                         link = new Data.Links.ActivationLayer(cn, String.Format("Activation Layer"));

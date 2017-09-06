@@ -72,6 +72,15 @@ namespace NNGui.Data.Links
             ID = Utility.GetHashString(DateTime.Now.ToFileTimeUtc().ToString() + Regex.Replace(TypeName, @"\s+", "")).Substring(0, 8);
         }
 
+        public T GetParameterByName<T>(string name) where T : ParameterBase
+        {
+            name = name.ToLower();
+            foreach (var item in Parameters)
+                if (item.Name.ToLower() == name)
+                    return item as T;
+            return null;
+        }
+
         private Chain _parentChain;
         [XmlIgnore]
         public Chain ParentChain
