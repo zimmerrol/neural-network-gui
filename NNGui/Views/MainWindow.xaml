@@ -10,8 +10,9 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:dd="urn:gong-wpf-dragdrop"
         xmlns:cv="clr-namespace:NNGui.Converters"
+        xmlns:op="clr-namespace:NNGui.Data.Optimizers"
         mc:Ignorable="d"
-        Title="MainWindow" Height="650" Width="525">
+        Title="MainWindow" Height="650" Width="525" MinWidth="350" MinHeight="550">
 
     <Window.CommandBindings>
         <CommandBinding Command="local:Commands.AddChainCommand" Executed="AddChainCommand_Executed" CanExecute="CommandBinding_DefaultCanExecute"/>
@@ -33,6 +34,11 @@
         <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="ActivationFunctionEnumValues">
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="pm:ActivationFunction" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type sys:Enum}" x:Key="OptimizerTypeEnumValues">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="op:OptimizerType" />
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
 
@@ -432,15 +438,34 @@
             <GroupBox Grid.Row="2" Header="Output &amp; Optimizer" MinHeight="70px">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition MaxWidth="200px" />
-                        <ColumnDefinition  MaxWidth="200px" />
+                        <ColumnDefinition MaxWidth="180px" />
+                        <ColumnDefinition  MaxWidth="310px" />
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Grid.Column="1">
                         <TextBlock Text="Optimizer:"  FontSize="11" Foreground="#222" />
-                        <ComboBox Margin="5 2" />
+                        <ComboBox Margin="5 2" SelectedValue="{Binding OptimizerSetting.Value, Mode=TwoWay}" Width="150" HorizontalAlignment="Left"
+                                  ItemsSource="{Binding Source={StaticResource OptimizerTypeEnumValues}}"/>
 
-                        <TextBlock Text="Parameters" Margin="5 0 0 0" FontSize="11" Foreground="#222" />
+                        <ItemsControl ItemsSource="{Binding OptimizerSetting.Optimizer.Parameters, NotifyOnSourceUpdated=True, Mode=TwoWay}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Width="150" Margin="5 2 0 0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="120px" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="{Binding Key}" />
+                                        <TextBox Grid.Column="1" Text="{Binding Value, Mode=TwoWay}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel  />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
                     </StackPanel>
 
 

@@ -7,6 +7,7 @@
 #include "Network.h"
 #include "Parameter.h"
 #include "ParameterValues.h"
+#include "Exceptions.h"
 
 CNetworkArchitecture::CNetworkArchitecture()
 {
@@ -22,6 +23,9 @@ CNetworkArchitecture::~CNetworkArchitecture()
 CNetworkArchitecture::CNetworkArchitecture(tinyxml2::XMLElement* pParentNode) : CNetworkArchitecture()
 {
 	tinyxml2::XMLElement *pNode = pParentNode->FirstChildElement(XML_TAG_Chains);
+	if (pNode == nullptr)
+		throw ProblemParserElementNotFound(XML_TAG_Chains);
+
 	loadChildren<CChain>(pNode, XML_TAG_Chain, m_chains);
 	for each (auto var in m_chains)
 	{

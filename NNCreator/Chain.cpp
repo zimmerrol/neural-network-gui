@@ -7,6 +7,7 @@
 #include "Network.h"
 #include "Parameter.h"
 #include "ParameterValues.h"
+#include "Exceptions.h"
 
 CChain::CChain()
 {
@@ -22,9 +23,14 @@ CChain::CChain(tinyxml2::XMLElement* pParentNode) : CChain()
 {
 	//read name
 	m_name = pParentNode->Attribute(XML_ATTRIBUTE_Name);
+	if (m_name.empty())
+		m_name = "Chain";
 
 	//read links
 	tinyxml2::XMLElement *pNode = pParentNode->FirstChildElement(XML_TAG_ChainLinks);
+	if (pNode == nullptr)
+		throw ProblemParserElementNotFound(XML_TAG_ChainLinks);
+
 	loadChildren<CLink>(pNode, XML_TAG_LinkBase, m_chainLinks);
 	for each (auto var in m_chainLinks)
 	{

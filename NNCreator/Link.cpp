@@ -10,7 +10,7 @@
 #include "Parameter.h"
 #include "ParameterValues.h"
 #include "Problem.h"
-
+#include "Exceptions.h"
 #include "CNTKWrapper.h"
 
 CLink::CLink()
@@ -47,16 +47,23 @@ CLink::CLink(tinyxml2::XMLElement* pParentNode)
 	else if (!strcmp(type, "MergeLayer"))
 		m_linkType = LinkType::MergeLayer;
 	else
-		throw "type has not been recognized";
+		throw ProblemParserElementValueNotValid(XML_ATTRIBUTE_Type);
 
 	//read name
 	m_name = pParentNode->Attribute(XML_ATTRIBUTE_Name);
+	if (m_name.empty())
+		m_name = "Link";
 
 	//read id
 	m_id = pParentNode->Attribute(XML_ATTRIBUTE_Id);
+	if (m_id.empty())
+		throw ProblemParserElementValueNotValid(XML_ATTRIBUTE_Id);
 
 	//read parameters
 	tinyxml2::XMLElement *pNode = pParentNode->FirstChildElement(XML_TAG_Parameters);
+	if (pNode == nullptr)
+		throw ProblemParserElementNotFound(XML_TAG_Parameters);
+
 	loadChildren<CParameterBaseInteface>(pNode, XML_TAG_ParameterBase, m_parameters);
 }
 

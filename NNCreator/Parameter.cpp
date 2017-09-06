@@ -6,6 +6,7 @@
 #include "Link.h"
 #include "Network.h"
 #include "Parameter.h"
+#include "Exceptions.h"
 #include "ParameterValues.h"
 
 template <typename T>
@@ -48,7 +49,7 @@ CActivationFunctionParameter::CActivationFunctionParameter(tinyxml2::XMLElement*
 	else if (!strcmp(type, "softmax"))
 		m_value = ActivationFunction::softmax;
 	else
-		throw "activation function has not been recognized";
+		throw ProblemParserElementValueNotValid(XML_TAG_Value);
 }
 
 CInputDataParameter::CInputDataParameter(tinyxml2::XMLElement* pParentNode) : CParameterBase<string>(pParentNode)
@@ -92,7 +93,7 @@ CParameterBaseInteface* CParameterBaseInteface::getInstance(tinyxml2::XMLElement
 {
 	if (!strcmp(pNode->Name(), XML_TAG_ParameterBase))
 	{
-		const char* type = pNode->Attribute("xsi:type");
+		const char* type = pNode->Attribute(XML_ATTRIBUTE_Type);
 		if (!strcmp(type, XML_ATTRIBUTE_ActivationFunctionParameter))
 			return new CActivationFunctionParameter(pNode);
 		else if (!strcmp(type, XML_ATTRIBUTE_DoubleParameter))
@@ -111,6 +112,8 @@ CParameterBaseInteface* CParameterBaseInteface::getInstance(tinyxml2::XMLElement
 			return new CIntTuple4DParameter(pNode);
 		else if (!strcmp(type, XML_ATTRIBUTE_LinkConnectionListParameter))
 			return new CLinkConnectionListParameter(pNode);
+		else
+			throw ProblemParserElementValueNotValid(XML_ATTRIBUTE_Type);
 	}
 
 	return nullptr;

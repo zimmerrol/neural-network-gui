@@ -147,6 +147,8 @@
   <ItemGroup>
     <ClInclude Include="Chain.h" />
     <ClInclude Include="CNTKWrapper.h" />
+    <ClInclude Include="Exceptions.h" />
+    <ClInclude Include="OptimizerSetting.h" />
     <ClInclude Include="Problem.h" />
     <ClInclude Include="InputData.h" />
     <ClInclude Include="Link.h" />
@@ -161,6 +163,7 @@
   <ItemGroup>
     <ClCompile Include="Chain.cpp" />
     <ClCompile Include="CNTKWrapper.cpp" />
+    <ClCompile Include="OptimizerSetting.cpp" />
     <ClCompile Include="Problem.cpp" />
     <ClCompile Include="InputData.cpp" />
     <ClCompile Include="Link.cpp" />

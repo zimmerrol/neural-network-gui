@@ -7,21 +7,39 @@
 #include "Chain.h"
 #include "ParameterValues.h"
 #include "Network.h"
+#include "OptimizerSetting.h"
+#include "Exceptions.h"
 
 CProblem::CProblem(tinyxml2::XMLElement * pParentNode)
 {
 	//load architecture
 	tinyxml2::XMLElement *pNode = pParentNode->FirstChildElement(XML_TAG_NETWORK_ARCHITECTURE);
+	if (pNode == nullptr)
+		throw ProblemParserElementNotFound(XML_TAG_NETWORK_ARCHITECTURE);
+
 	m_pNetworkArchitecture = CNetworkArchitecture::getInstance(pNode);
 	m_pNetworkArchitecture->setParentProblem(this);
 
 	//load inputs
 	pNode = pParentNode->FirstChildElement(XML_TAG_Inputs);
-	loadChildren<CInputData>(pNode, XML_TAG_InputData, m_inputs);
+	if (pNode == nullptr)
+		throw ProblemParserElementNotFound(XML_TAG_NETWORK_ARCHITECTURE);
+	loadChildren<CInputData>(pNode, XML_TAG_NETWORK_ARCHITECTURE, m_inputs);
 
 	//load output
-	pNode = pParentNode->FirstChildElement(XML_TAG_Output)->FirstChildElement(XML_TAG_LinkConnection);
-	m_output = CLinkConnection::getInstance(pNode);
+	pNode = pParentNode->FirstChildElement(XML_TAG_Output);
+	if (pNode == nullptr)
+		throw ProblemParserElementNotFound(XML_TAG_Output);
+	pNode = pNode->FirstChildElement(XML_TAG_LinkConnection);
+	if (pNode == nullptr)
+		throw ProblemParserElementNotFound(XML_TAG_LinkConnection);
+	m_pOutput = CLinkConnection::getInstance(pNode);
+
+	//load optimuzer
+	pNode = pParentNode->FirstChildElement(XML_TAG_OptimizerSetting)->FirstChildElement(XML_TAG_Optimizer);
+	if (pNode == nullptr)
+		throw ProblemParserElementNotFound(XML_TAG_Optimizer);
+	m_pOptimizerSetting = COptimizerSetting::getInstance(pNode);
 }
 
 CProblem::CProblem()
@@ -67,12 +85,23 @@ CNetwork * CProblem::createNetwork()
 		}
 	}
 
+	//output node
 	CNTK::FunctionPtr pOutputFunction = nullptr;
 
+	//stores the progress of each chain
 	auto progressMap = std::map<CChain*, CLink*>();
+
+	//the currently processed link
 	CLink* pCurrentLink;
+
+	//the dependencies of the current link
 	vector<const CLink*> dependencies;
+	
+	//termination condition
 	bool architectureDeadEndReached = false;
+
+	//traverse the architecture until either the output has been created
+	//or no more changes are applied
 	while (pOutputFunction == nullptr && !architectureDeadEndReached)
 	{
 		architectureDeadEndReached = true;
@@ -91,6 +120,7 @@ CNetwork * CProblem::createNetwork()
 				pCurrentLink = progressMap.at(pChain);
 			}
 
+			//go down in this chain until it is not any more possible
 			while (pCurrentLink != nullptr)
 			{
 				//get dependencies
@@ -114,14 +144,14 @@ CNetwork * CProblem::createNetwork()
 				//all dependencies are satisfied and already traversed
 				//create the FunctionPtr now and save it!
 
-				//TODO: add real code
+				//create CNTK node
 				pCurrentLink->createCNTKFunctionPtr(dependencies);
 				result->getFunctionPtrs().push_back(pCurrentLink->getFunctionPtr());
 
 				//pCurrentLink->getFunctionPtr()->Save(L"C:\\Users\\Roland\\Desktop\\graph.dat");
 
 				//check if output has been reached already
-				if (!strcmp(m_output->getTargetId().c_str(), pCurrentLink->getId().c_str()))
+				if (!strcmp(m_pOutput->getTargetId().c_str(), pCurrentLink->getId().c_str()))
 				{
 					pOutputFunction = pCurrentLink->getFunctionPtr()->Output();
 					result->getOutputsFunctionPtr().push_back(pOutputFunction);
@@ -136,9 +166,13 @@ CNetwork * CProblem::createNetwork()
 
 			}
 
+			//the output node has already been created
+			//the network is created
+			//all other links are not used to calculate the output
 			if (pOutputFunction != nullptr)
 				break;
 
+			//store last processed item of the current chain
 			progressMap.insert_or_assign(pChain, pCurrentLink);
 		}
 	}

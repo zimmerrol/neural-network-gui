@@ -25,6 +25,9 @@ namespace NNGui.Data.Links
 
         public override void ValidateInputCompatibility()
         {
+            IsInputCompatible = true;
+
+            //now check, of we have to make this false again
             var list = (Parameters[0] as LinkConnectionListParameter).Value;
             if (list.Count > 0)
             {
@@ -44,10 +47,6 @@ namespace NNGui.Data.Links
                         return;
                     }
                 }
-            }
-            else
-            {
-                IsInputCompatible = true;
             }
         }
 

@@ -55,7 +55,8 @@ namespace NNGui.Data.Parameters
             set
             {
                 _value = value;
-                Parent.ParentChain.NetworkArchitecture.ValidateInputCompatibility();
+                if (Parent != null)
+                    Parent.ParentChain.NetworkArchitecture.ValidateInputCompatibility();
             }
         }
     }

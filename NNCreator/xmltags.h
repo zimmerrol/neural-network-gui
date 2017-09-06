@@ -7,6 +7,7 @@
 #define XML_TAG_LinkBase "LinkBase"
 #define XML_TAG_Parameters "Parameters"
 #define XML_TAG_Value "Value"
+#define XML_TAG_Key "Key"
 #define XML_ATTRIBUTE_Name "Name"
 #define XML_ATTRIBUTE_Id "ID"
 #define XML_TAG_Id "ID"
@@ -23,6 +24,10 @@
 #define XML_TAG_Tuple_2 "x2"
 #define XML_TAG_Tuple_3 "x3"
 #define XML_TAG_Tuple_4 "x4"
+
+#define XML_TAG_OptimizerParameter "ObservableKvPOfStringDouble"
+#define XML_TAG_OptimizerSetting "OptimizerSetting"
+#define XML_TAG_Optimizer "Optimizer"
 
 #define XML_TAG_Problem "Problem"
 #define XML_TAG_Inputs "Inputs"

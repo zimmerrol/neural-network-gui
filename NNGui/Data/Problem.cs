@@ -13,6 +13,7 @@ using System.Xml.Serialization;
 using Xml.Serialization;
 using GongSolutions.Wpf.DragDrop;
 using System.Windows.Controls;
+using NNGui.Data.Optimizers;
 
 namespace NNGui.Data
 {
@@ -22,6 +23,7 @@ namespace NNGui.Data
         {
             NetworkArchitecture = new NetworkArchitecture(this);
             OutputDDHandler = new InternalOutputDDHandler(this);
+            OptimizerSetting = new OptimizerSetting(OptimizerType.SGD);
         }
 
         public List<InputData> Inputs { get; } = new List<InputData>();
@@ -44,12 +46,20 @@ namespace NNGui.Data
 
             public void DragOver(IDropInfo dropInfo)
             {
-                dropInfo.Effects = System.Windows.DragDropEffects.Copy;
+                var link = dropInfo.Data as LinkBase;
+                if (link is null)
+                    dropInfo.Effects = System.Windows.DragDropEffects.None;
+                else
+                    dropInfo.Effects = System.Windows.DragDropEffects.Copy;
             }
 
             public void Drop(IDropInfo dropInfo)
             {
-                _parent.Output.LinkConnection = new LinkConnection(dropInfo.Data as LinkBase);
+                var link = dropInfo.Data as LinkBase;
+                if (link is null)
+                    return;
+
+                _parent.Output.LinkConnection = new LinkConnection(link);
                 ((ObservableCollection<LinkBase>)((ItemsControl)dropInfo.VisualTarget).ItemsSource).Clear();
                 ((ObservableCollection<LinkBase>)((ItemsControl)dropInfo.VisualTarget).ItemsSource).Add(dropInfo.Data as LinkBase);
             }
@@ -84,6 +94,8 @@ namespace NNGui.Data
             }
         }
 
+        public OptimizerSetting OptimizerSetting { get; set; }
+
 
         private OutputConfiguration _output = new OutputConfiguration();
         public OutputConfiguration Output
@@ -98,7 +110,8 @@ namespace NNGui.Data
                 if (!(RawOutput.Count == 1 && RawOutput[0] == value.LinkConnection.Target))
                 {
                     RawOutput.Clear();
-                    RawOutput.Add(value.LinkConnection.Target);
+                    if (value.LinkConnection != null)
+                        RawOutput.Add(value.LinkConnection.Target);
                 }
                 OnPropertyChanged("Output");
             }
@@ -159,6 +172,8 @@ namespace NNGui.Data
                     foreach (var item in inputs)
                         result.Inputs.Add(item);
 
+                    result.NetworkArchitecture.ValidateInputCompatibility();
+
                     return result;
                 }
             }
@@ -169,7 +184,7 @@ namespace NNGui.Data
             NetworkArchitecture.Problem = this;
 
             //fix the Output node again
-            if (Output != null)
+            if (Output != null && Output.LinkConnection != null)
             {
                 foreach (var chain in NetworkArchitecture.Chains)
                 {
