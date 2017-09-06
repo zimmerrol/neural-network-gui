@@ -1,8 +1,8 @@
 #pragma once
 
 #include <string>
-#include "CNTKLibrary.h"
 #include "../3rd/tinyxml2/tinyxml2.h"
+#include "CNTKLibrary.h"
 
 class CIntTuple;
 

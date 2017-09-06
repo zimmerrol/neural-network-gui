@@ -4,6 +4,8 @@
 
 using namespace std;
 
+class COptimizerSetting;
+
 class CNetwork
 {
 protected:
@@ -12,6 +14,8 @@ protected:
 	vector<CNTK::FunctionPtr> m_outputsFunctionPtr;
 	CNTK::FunctionPtr m_networkFunctionPtr;
 	CNTK::FunctionPtr m_lossFunctionPtr;
+	CNTK::TrainerPtr m_trainer;
+	CNTK::Variable m_targetOutput;
 
 public:
 	CNetwork();
@@ -23,7 +27,7 @@ public:
 	CNTK::FunctionPtr getNetworkFunctionPtr() { return m_networkFunctionPtr; }
 	CNTK::FunctionPtr getLossFunctionPtr() { return m_lossFunctionPtr; }
 
-	void buildNetworkFunctionPtr();
+	void buildNetworkFunctionPtr(const COptimizerSetting* optimizer);
 	void save(string fileName);
 	static CNetwork load(string fileName, CNTK::DeviceDescriptor &device);
 };

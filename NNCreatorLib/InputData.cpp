@@ -6,6 +6,7 @@
 #include "Exceptions.h"
 
 
+
 CInputData::CInputData(tinyxml2::XMLElement * pParentNode)
 {
 	m_id = pParentNode->Attribute(XML_ATTRIBUTE_Id);

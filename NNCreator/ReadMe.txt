@@ -1,32 +1,37 @@
-﻿========================================================================
-    KONSOLENANWENDUNG: NNCreator-Projektübersicht
+========================================================================
+    CONSOLE APPLICATION : [!output PROJECT_NAME] Project Overview
 ========================================================================
 
-Diese NNCreator-Anwendung wurde vom Anwendungs-Assistenten für Sie erstellt.
+AppWizard has created this [!output PROJECT_NAME] application for you.
 
-Diese Datei bietet eine Übersicht über den Inhalt der einzelnen Dateien, aus
-denen Ihre NNCreator-Anwendung besteht.
+This file contains a summary of what you will find in each of the files that
+make up your [!output PROJECT_NAME] application.
 
 
-NNCreator.vcxproj
-    Dies ist die Hauptprojektdatei für VC++-Projekte, die mit dem Anwendungs-Assistenten generiert werden. Sie enthält Informationen über die Version von Visual C++, mit der die Datei generiert wurde, sowie über die Plattformen, Konfigurationen und Projektfunktionen, die im Anwendungs-Assistenten ausgewählt wurden.
+    This is the main project file for VC++ projects generated using an Application Wizard.
+    It contains information about the version of Visual C++ that generated the file, and
+    information about the platforms, configurations, and project features selected with the
+    Application Wizard.
 
-NNCreator.vcxproj.filters
-    Dies ist die Filterdatei für VC++-Projekte, die mithilfe eines Anwendungs-Assistenten erstellt werden. Sie enthält Informationen über die Zuordnung zwischen den Dateien im Projekt und den Filtern. Diese Zuordnung wird in der IDE zur Darstellung der Gruppierung von Dateien mit ähnlichen Erweiterungen unter einem bestimmten Knoten verwendet (z. B. sind CPP-Dateien dem Filter "Quelldateien" zugeordnet).
+    This is the filters file for VC++ projects generated using an Application Wizard. 
+    It contains information about the association between the files in your project 
+    and the filters. This association is used in the IDE to show grouping of files with
+    similar extensions under a specific node (for e.g. ".cpp" files are associated with the
+    "Source Files" filter).
 
-NNCreator.cpp
-    Dies ist die Hauptquelldatei der Anwendung.
+    This is the main application source file.
 
 /////////////////////////////////////////////////////////////////////////////
-Andere Standarddateien:
+Other standard files:
 
 StdAfx.h, StdAfx.cpp
-    Mit diesen Dateien werden eine vorkompilierte Headerdatei (PCH) mit dem Namen NNCreator.pch und eine vorkompilierte Typendatei mit dem Namen StdAfx.obj erstellt.
+    These files are used to build a precompiled header (PCH) file
+    named [!output PROJECT_NAME].pch and a precompiled types file named StdAfx.obj.
 
 /////////////////////////////////////////////////////////////////////////////
-Weitere Hinweise:
+Other notes:
 
-Der Anwendungs-Assistent weist Sie mit "TODO:"-Kommentaren auf Teile des
-Quellcodes hin, die Sie ergänzen oder anpassen sollten.
+AppWizard uses "TODO:" comments to indicate parts of the source code you
+should add to or customize.
 
 /////////////////////////////////////////////////////////////////////////////

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NNGui", "NNGui\NNGui.csproj", "{61319245-3F7A-4366-B153-C3B7DDC1B9F6}"
 EndProject
@@ -9,7 +9,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3rd", "3rd", "{D04F59C0-BD3
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tinyxml2", "3rd\tinyxml2\tinyxml2.vcxproj", "{D1C528B6-AA02-4D29-9D61-DC08E317A70D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NNCreator", "NNCreator\NNCreator.vcxproj", "{72CF78B6-1DCA-4BA6-8EE0-C98E9226F853}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NNCreatorLib", "NNCreatorLib\NNCreatorLib.vcxproj", "{72CF78B6-1DCA-4BA6-8EE0-C98E9226F853}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NNCreator", "NNCreator\NNCreator.vcxproj", "{0C0214EF-007B-40FA-91D5-DE6132F28D19}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,11 +55,24 @@ Global
 		{72CF78B6-1DCA-4BA6-8EE0-C98E9226F853}.Release|x64.Build.0 = Release|x64
 		{72CF78B6-1DCA-4BA6-8EE0-C98E9226F853}.Release|x86.ActiveCfg = Release|Win32
 		{72CF78B6-1DCA-4BA6-8EE0-C98E9226F853}.Release|x86.Build.0 = Release|Win32
+		{0C0214EF-007B-40FA-91D5-DE6132F28D19}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{0C0214EF-007B-40FA-91D5-DE6132F28D19}.Debug|x64.ActiveCfg = Debug|x64
+		{0C0214EF-007B-40FA-91D5-DE6132F28D19}.Debug|x64.Build.0 = Debug|x64
+		{0C0214EF-007B-40FA-91D5-DE6132F28D19}.Debug|x86.ActiveCfg = Debug|Win32
+		{0C0214EF-007B-40FA-91D5-DE6132F28D19}.Debug|x86.Build.0 = Debug|Win32
+		{0C0214EF-007B-40FA-91D5-DE6132F28D19}.Release|Any CPU.ActiveCfg = Release|Win32
+		{0C0214EF-007B-40FA-91D5-DE6132F28D19}.Release|x64.ActiveCfg = Release|x64
+		{0C0214EF-007B-40FA-91D5-DE6132F28D19}.Release|x64.Build.0 = Release|x64
+		{0C0214EF-007B-40FA-91D5-DE6132F28D19}.Release|x86.ActiveCfg = Release|Win32
+		{0C0214EF-007B-40FA-91D5-DE6132F28D19}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D1C528B6-AA02-4D29-9D61-DC08E317A70D} = {D04F59C0-BD39-414D-82A7-802006B842D2}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0BFFDC36-896D-47D2-AEAB-2E132AD7F93F}
 	EndGlobalSection
 EndGlobal

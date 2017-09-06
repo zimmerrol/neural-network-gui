@@ -7,6 +7,7 @@
 #include "NetworkArchitecture.h"
 #include "Problem.h"
 #include "InputData.h"
+#include "OptimizerSetting.h"
 
 CNTK::FunctionPtr CNTKWrapper::InputLayer(const CLink * pLink, vector<const CLink*> dependencies, CNTK::DeviceDescriptor & device)
 {
@@ -107,7 +108,7 @@ CNTK::FunctionPtr CNTKWrapper::FlattenLayer(const CLink * pLink, vector<const CL
 {
 	wstring name = Internal::string2wstring(pLink->getName());
 	NDShape inputShape = dependencies.at(0)->getFunctionPtr()->Output().Shape();
-	
+
 	return Reshape(dependencies.at(0)->getFunctionPtr(), { inputShape.TotalSize() }, name);
 }
 
@@ -132,12 +133,31 @@ CNTK::FunctionPtr CNTKWrapper::ReshapeLayer(const CLink * pLink, vector<const CL
 CNTK::FunctionPtr CNTKWrapper::MergeLayer(const CLink * pLink, vector<const CLink*> dependencies, CNTK::DeviceDescriptor & device)
 {
 	vector<Variable> inputs = vector<Variable>();
-	for each(auto pItem in dependencies)
-		inputs.push_back((CNTK::Variable)pItem->getFunctionPtr());
-	
-	//TODO: add support for different axes
-	auto axis = CNTK::Axis::Axis(0);
-	return Splice(inputs, axis);
+	if (dependencies.size() > 1)
+	{
+		for each(auto pItem in dependencies)
+			inputs.push_back((CNTK::Variable)pItem->getFunctionPtr());
+
+		//TODO: add support for different axes
+		auto axis = CNTK::Axis::Axis(0);
+		return Splice(inputs, axis);
+	}
+
+	return dependencies.at(0)->getFunctionPtr();
+}
+
+CNTK::TrainerPtr CNTKWrapper::CreateOptimizer(const COptimizerSetting * pOptimizerSetting, CNTK::FunctionPtr& output, CNTK::FunctionPtr& lossFunction)
+{
+	CNTK::LearnerPtr pLearner;
+	switch (pOptimizerSetting->getOptimizerType())
+	{
+	case OptimizerType::SGD:
+		//auto lr = CNTK::LearningRatePerMinibatchSchedule(pOptimizerSetting->getParameterByKey("Learning rate")->getValue());
+		LearningRatePerMinibatchSchedule lr = 0.2;
+		pLearner = CNTK::SGDLearner(output->Parameters(), lr);
+	}
+
+	return CreateTrainer(output, lossFunction, { pLearner });
 }
 
 

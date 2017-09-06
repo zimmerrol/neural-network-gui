@@ -1,6 +1,5 @@
 #pragma once
 #include <vector>
-#include "CNTKLibrary.h"
 #include "../3rd/tinyxml2/tinyxml2.h"
 
 using namespace std;

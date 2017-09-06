@@ -13,6 +13,8 @@ enum class ActivationFunction;
 
 using namespace CNTK;
 
+class COptimizerSetting;
+
 
 namespace CNTKWrapper
 {
@@ -26,6 +28,8 @@ namespace CNTKWrapper
 	CNTK::FunctionPtr FlattenLayer(const CLink* pLink, vector<const CLink*> dependencies, CNTK::DeviceDescriptor& device);
 	CNTK::FunctionPtr ReshapeLayer(const CLink* pLink, vector<const CLink*> dependencies, CNTK::DeviceDescriptor& device);
 	CNTK::FunctionPtr MergeLayer(const CLink* pLink, vector<const CLink*> dependencies, CNTK::DeviceDescriptor& device);
+
+	CNTK::TrainerPtr CreateOptimizer(const COptimizerSetting* pOptimizerSetting, CNTK::FunctionPtr& model, CNTK::FunctionPtr& lossFunction);
 
 	namespace Internal
 	{

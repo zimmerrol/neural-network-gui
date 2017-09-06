@@ -23,8 +23,8 @@ CProblem::CProblem(tinyxml2::XMLElement * pParentNode)
 	//load inputs
 	pNode = pParentNode->FirstChildElement(XML_TAG_Inputs);
 	if (pNode == nullptr)
-		throw ProblemParserElementNotFound(XML_TAG_NETWORK_ARCHITECTURE);
-	loadChildren<CInputData>(pNode, XML_TAG_NETWORK_ARCHITECTURE, m_inputs);
+		throw ProblemParserElementNotFound(XML_TAG_Inputs);
+	loadChildren<CInputData>(pNode, XML_TAG_InputData, m_inputs);
 
 	//load output
 	pNode = pParentNode->FirstChildElement(XML_TAG_Output);
@@ -35,7 +35,7 @@ CProblem::CProblem(tinyxml2::XMLElement * pParentNode)
 		throw ProblemParserElementNotFound(XML_TAG_LinkConnection);
 	m_pOutput = CLinkConnection::getInstance(pNode);
 
-	//load optimuzer
+	//load optimizer
 	pNode = pParentNode->FirstChildElement(XML_TAG_OptimizerSetting)->FirstChildElement(XML_TAG_Optimizer);
 	if (pNode == nullptr)
 		throw ProblemParserElementNotFound(XML_TAG_Optimizer);
@@ -55,6 +55,39 @@ CProblem * CProblem::getInstance(tinyxml2::XMLElement * pNode)
 {
 	if (!strcmp(pNode->Name(), XML_TAG_Problem))
 		return new CProblem(pNode);
+
+	return nullptr;
+}
+
+CProblem * CProblem::loadFromFile(std::string fileName)
+{
+	tinyxml2::XMLDocument doc;
+	doc.LoadFile(fileName.c_str());
+
+	if (doc.Error() == tinyxml2::XML_SUCCESS)
+	{
+		tinyxml2::XMLElement *pRoot = doc.RootElement();
+		if (pRoot)
+		{
+			return CProblem::getInstance(pRoot);
+		}
+	}
+
+	return nullptr;
+}
+
+CProblem * CProblem::loadFromString(std::string content)
+{
+	tinyxml2::XMLDocument doc;
+
+	if (doc.Parse(content.c_str()) == tinyxml2::XML_SUCCESS)
+	{
+		tinyxml2::XMLElement *pRoot = doc.RootElement();
+		if (pRoot)
+		{
+			return CProblem::getInstance(pRoot);
+		}
+	}
 
 	return nullptr;
 }
@@ -96,7 +129,7 @@ CNetwork * CProblem::createNetwork()
 
 	//the dependencies of the current link
 	vector<const CLink*> dependencies;
-	
+
 	//termination condition
 	bool architectureDeadEndReached = false;
 

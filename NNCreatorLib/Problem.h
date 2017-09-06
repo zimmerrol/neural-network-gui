@@ -28,6 +28,9 @@ public:
 
 	static CProblem* getInstance(tinyxml2::XMLElement* pNode);
 
+	static CProblem* loadFromFile(std::string fileName);
+	static CProblem* loadFromString(std::string content);
+
 	CNetwork* createNetwork();
 };
 

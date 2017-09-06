@@ -45,6 +45,19 @@ COptimizerSetting * COptimizerSetting::getInstance(tinyxml2::XMLElement * pNode)
 	return new COptimizerSetting(pNode);
 }
 
+const COptimizerParameter * COptimizerSetting::getParameterByKey(std::string key) const
+{
+	for each (auto pParameter in m_parameters)
+	{
+		if (pParameter->getKey() == key)
+		{
+			return pParameter;
+		}
+	}
+
+	return nullptr;
+}
+
 COptimizerParameter::COptimizerParameter(tinyxml2::XMLElement * pParentNode)
 {
 	tinyxml2::XMLElement *pNode = pParentNode->FirstChildElement(XML_TAG_Value);

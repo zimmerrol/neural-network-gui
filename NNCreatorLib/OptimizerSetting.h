@@ -26,6 +26,11 @@ public:
 	COptimizerSetting();
 	~COptimizerSetting();
 	static COptimizerSetting* getInstance(tinyxml2::XMLElement* pNode);
+
+	const OptimizerType& getOptimizerType() const { return m_optimizerType; }
+	const std::vector<COptimizerParameter*>& getParameteres() const { return m_parameters; }
+
+	const COptimizerParameter* getParameterByKey(std::string key) const;
 };
 
 class COptimizerParameter
@@ -40,4 +45,7 @@ public:
 	COptimizerParameter();
 	~COptimizerParameter();
 	static COptimizerParameter* getInstance(tinyxml2::XMLElement* pNode);
+
+	const std::string& getKey() const { return m_key; }
+	const double& getValue() const { return m_value; }
 };

@@ -25,7 +25,7 @@
 #define XML_TAG_Tuple_3 "x3"
 #define XML_TAG_Tuple_4 "x4"
 
-#define XML_TAG_OptimizerParameter "ObservableKvPOfStringDouble"
+#define XML_TAG_OptimizerParameter "OptimizerParameterOfStringDouble"
 #define XML_TAG_OptimizerSetting "OptimizerSetting"
 #define XML_TAG_Optimizer "Optimizer"
 
