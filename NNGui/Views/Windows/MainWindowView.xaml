@@ -146,7 +146,7 @@
                                                                     <ColumnDefinition Width="20"/>
                                                                 </Grid.ColumnDefinitions>
 
-                                                                <TextBlock Grid.Column="0" VerticalAlignment="Center" Visibility="{Binding IsExpanded, RelativeSource={RelativeSource AncestorType={x:Type Expander}, Mode=FindAncestor}, 
+                                                                <TextBlock Grid.Column="0" VerticalAlignment="Center" Visibility="{Binding IsExpanded, RelativeSource={RelativeSource AncestorType={x:Type Expander}, Mode=FindAncestor},
                                                                        Converter={StaticResource InvertedBooleanToVisibilityConverter }}" Text="{Binding Name}" />
                                                                 <Button Grid.Column="1" Content="x" FontSize="12" Foreground="White" Template="{StaticResource DeleteButtonTemplate}"
                                                                         Style="{StaticResource DeleteButtonStyle}" Command="local:Commands.RemoveChainLinkCommand"
@@ -182,7 +182,7 @@
                                                                                 </Grid.RowDefinitions>
                                                                                 <Label Content="{Binding Name, Mode=OneWay}" />
                                                                                 <ListBox ItemsSource="{Binding RawValue}" MinHeight="30px" HorizontalContentAlignment="Stretch"
-                                                                                     dd:DragDrop.IsDragSource="False" dd:DragDrop.IsDropTarget="True"
+                                                                                     dd:DragDrop.IsDragSource="False" dd:DragDrop.IsDropTarget="True" ToolTip="Drag and drop links here to add them to the list"
                                                                                      dd:DragDrop.DropHandler="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.DDHandler}">
                                                                                     <ListBox.ItemTemplate>
                                                                                         <DataTemplate>
@@ -341,7 +341,7 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition MaxWidth="180px" />
-                        <ColumnDefinition  MaxWidth="310px" />
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Grid.Column="1">
@@ -352,7 +352,7 @@
                         <ItemsControl ItemsSource="{Binding OptimizerSetting.Optimizer.Parameters, NotifyOnSourceUpdated=True, Mode=TwoWay}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid Width="150" Margin="5 2 0 0">
+                                    <Grid Width="180" Margin="5 2 0 0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="120px" />
                                             <ColumnDefinition />
@@ -393,7 +393,7 @@
 
             </GroupBox>
         </Grid>-->
-        
+
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Content="Export..." Margin="4" x:Name="Export"/>
             <Button Content="Import..." Margin="4" x:Name="Import"/>

@@ -33,7 +33,7 @@ namespace NNGui.Data.Links
 
         public override int? GetTensorRank()
         {
-            var idv = (Parameters[0] as InputDataParameter).InputDataValue;
+            var idv = GetParameterByName<InputDataParameter>("Input Data").InputDataValue;
             if (idv == null)
                 return null;
 

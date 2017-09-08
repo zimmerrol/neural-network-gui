@@ -52,6 +52,15 @@ namespace NNGui.Data.Links
             ID = Utility.GetHashString(DateTime.Now.ToFileTimeUtc().ToString() + Regex.Replace(TypeName, @"\s+", "")).Substring(0, 8);
         }
 
+        public T GetParameterByName<T>(string name) where T : ParameterBase
+        {
+            name = name.ToLower();
+            foreach (var item in Parameters)
+                if (item.Name.ToLower() == name)
+                    return item as T;
+            return null;
+        }
+
         [XmlIgnore]
         public Chain ParentChain { get; internal set; }
 
@@ -82,19 +91,6 @@ namespace NNGui.Data.Links
             if (index == 0)
                 return null;
             return ParentChain.ChainLinks[index - 1];
-        }
-
-        public T GetParameterByName<T>(string name) where T : ParameterBase
-        {
-            foreach (var param in Parameters)
-            {
-                if (param.Name == name)
-                {
-                    return param as T;
-                }
-            }
-
-            return null;
         }
     }
 }

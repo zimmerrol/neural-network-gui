@@ -18,6 +18,7 @@ namespace NNGui.Data.Links
 
         public MergeLayer(Chain parent, string name) : base(parent, name)
         {
+            Parameters.Add(new IntParameter("Axis", this));
             Parameters.Add(new LinkConnectionListParameter("Links", this));
         }
 
@@ -25,37 +26,35 @@ namespace NNGui.Data.Links
 
         public override bool IsInputCompatible
         {
-            get
+            //now check, of we have to make this false again
+            var list = (Parameters[0] as LinkConnectionListParameter).Value;
+            if (list.Count > 0)
             {
-                //now check, of we have to make this false again
-                var list = (Parameters[0] as LinkConnectionListParameter).Value;
-                if (list.Count > 0)
+                //check the ranks
+                int? rawRank = list[0].Target.GetTensorRank();
+                if (!rawRank.HasValue)
                 {
-                    //check the ranks
-                    int? rawRank = list[0].Target.GetTensorRank();
-                    if (!rawRank.HasValue)
+                    return false;
+                }
+                int rank = rawRank.Value;
+                for (int i = 1; i < list.Count; i++)
+                {
+                    if (!rawRank.Equals(list[i].Target.GetTensorRank()))
                     {
                         return false;
                     }
-                    int rank = rawRank.Value;
-                    for (int i = 1; i < list.Count; i++)
-                    {
-                        if (!rawRank.Equals(list[i].Target.GetTensorRank()))
-                        {
-                            return false;
-                        }
-                    }
                 }
-
-                return true;
             }
+
+            return true;
         }
 
         public override int? GetTensorRank()
         {
-            if ((Parameters[0] as LinkConnectionListParameter).Value.Count > 0)
+            var list = GetParameterByName<LinkConnectionListParameter>("Links").Value;
+            if (list.Count > 0)
             {
-                return (Parameters[0] as LinkConnectionListParameter).Value[0].Target.GetTensorRank();
+                return list[0].Target.GetTensorRank();
             }
             return null;
         }

@@ -30,7 +30,7 @@ namespace NNGui.Data.Optimizers
         public override void InitializeParameters()
         {
             Parameters = new ObservableCollection<OptimizerParameter<string, double>>();
-            Parameters.Add(new OptimizerParameter<string, double>("Learning rate", 0.1));
+            Parameters.Add(new OptimizerParameter<string, double>("Learning rate", 0.01));
         }
     }
 
@@ -42,7 +42,7 @@ namespace NNGui.Data.Optimizers
         public override void InitializeParameters()
         {
             Parameters = new ObservableCollection<OptimizerParameter<string, double>>();
-            Parameters.Add(new OptimizerParameter<string, double>("Learning rate", 0.1));
+            Parameters.Add(new OptimizerParameter<string, double>("Learning rate", 0.01));
             Parameters.Add(new OptimizerParameter<string, double>("Momentum", 0.1));
         }
     }
@@ -55,7 +55,8 @@ namespace NNGui.Data.Optimizers
         public override void InitializeParameters()
         {
             Parameters = new ObservableCollection<OptimizerParameter<string, double>>();
-            Parameters.Add(new OptimizerParameter<string, double>("Learning rate", 0.1));
+            Parameters.Add(new OptimizerParameter<string, double>("Learning rate", 0.01));
+            Parameters.Add(new OptimizerParameter<string, double>("Momentum", 0.1));
         }
     }
 
@@ -67,7 +68,7 @@ namespace NNGui.Data.Optimizers
         public override void InitializeParameters()
         {
             Parameters = new ObservableCollection<OptimizerParameter<string, double>>();
-            Parameters.Add(new OptimizerParameter<string, double>("Learning rate", 0.1));
+            Parameters.Add(new OptimizerParameter<string, double>("Learning rate", 0.01));
             Parameters.Add(new OptimizerParameter<string, double>("Momentum", 0.1));
             Parameters.Add(new OptimizerParameter<string, double>("Variance momentum", 0.1));
         }
@@ -81,10 +82,10 @@ namespace NNGui.Data.Optimizers
         public override void InitializeParameters()
         {
             Parameters = new ObservableCollection<OptimizerParameter<string, double>>();
-            Parameters.Add(new OptimizerParameter<string, double>("Learning rate", 0.1));
-            Parameters.Add(new OptimizerParameter<string, double>("Momentum", 0.1));
-            Parameters.Add(new OptimizerParameter<string, double>("Variance momentum", 0.1));
-            Parameters.Add(new OptimizerParameter<string, double>("Epsilon", 0.1));
+            Parameters.Add(new OptimizerParameter<string, double>("Learning rate", 0.001));
+            Parameters.Add(new OptimizerParameter<string, double>("Momentum", 0.9));
+            Parameters.Add(new OptimizerParameter<string, double>("Variance momentum", 0.999));
+            Parameters.Add(new OptimizerParameter<string, double>("Epsilon", 1e-8));
         }
     }
 
@@ -96,7 +97,7 @@ namespace NNGui.Data.Optimizers
         public override void InitializeParameters()
         {
             Parameters = new ObservableCollection<OptimizerParameter<string, double>>();
-            Parameters.Add(new OptimizerParameter<string, double>("Learning rate", 0.1));
+            Parameters.Add(new OptimizerParameter<string, double>("Learning rate", 0.01));
         }
     }
 
@@ -108,12 +109,12 @@ namespace NNGui.Data.Optimizers
         public override void InitializeParameters()
         {
             Parameters = new ObservableCollection<OptimizerParameter<string, double>>();
-            Parameters.Add(new OptimizerParameter<string, double>("Learning rate", 0.1));
-            Parameters.Add(new OptimizerParameter<string, double>("Gamma", 0.1));
-            Parameters.Add(new OptimizerParameter<string, double>("Inc", 0.1));
-            Parameters.Add(new OptimizerParameter<string, double>("Dec", 0.1));
+            Parameters.Add(new OptimizerParameter<string, double>("Learning rate", 0.001));
+            Parameters.Add(new OptimizerParameter<string, double>("Gamma", 0.95));
+            Parameters.Add(new OptimizerParameter<string, double>("Inc", 2.0));
+            Parameters.Add(new OptimizerParameter<string, double>("Dec", 0.01));
             Parameters.Add(new OptimizerParameter<string, double>("Max", 0.1));
-            Parameters.Add(new OptimizerParameter<string, double>("Min", 0.1));
+            Parameters.Add(new OptimizerParameter<string, double>("Min", 0.0001));
         }
     }
 
@@ -125,9 +126,9 @@ namespace NNGui.Data.Optimizers
         public override void InitializeParameters()
         {
             Parameters = new ObservableCollection<OptimizerParameter<string, double>>();
-            Parameters.Add(new OptimizerParameter<string, double>("Learning rate", 0.1));
-            Parameters.Add(new OptimizerParameter<string, double>("Rho", 0.1));
-            Parameters.Add(new OptimizerParameter<string, double>("Epsilon", 0.1));
+            Parameters.Add(new OptimizerParameter<string, double>("Learning rate", 1.0));
+            Parameters.Add(new OptimizerParameter<string, double>("Rho", 0.95));
+            Parameters.Add(new OptimizerParameter<string, double>("Epsilon", 1e-8));
         }
     }
 }
