@@ -11,11 +11,11 @@ using NNGui.Data.Links;
 
 namespace NNGui.Data
 {
-    public class Chain : INotifyPropertyChanged, IDeserializationCallback
+    public class Chain : IDeserializationCallback
     {
         private Chain()
         {
-            ChainLinks = new ObservableCollection<LinkBase>();
+            ChainLinks = new List<LinkBase>();
         }
         public Chain(NetworkArchitecture parent) : this()
         {
@@ -24,27 +24,13 @@ namespace NNGui.Data
 
         public Chain(NetworkArchitecture parent, string name) : this(parent)
         {
-            _name = name;
+            Name = name;
         }
 
         [XmlIgnore]
         public NetworkArchitecture NetworkArchitecture { get; internal set; }
 
-        public ObservableCollection<LinkBase> ChainLinks { get; }
-
-        private string _name;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public void ValidateInputCompatibility()
-        {
-            foreach (var item in ChainLinks)
-                item.ValidateInputCompatibility();
-        }
+        public List<LinkBase> ChainLinks { get; }
 
         public void OnDeserialization(object sender)
         {
@@ -55,17 +41,6 @@ namespace NNGui.Data
         }
 
         [XmlAttribute]
-        public string Name
-        {
-            get
-            {
-                return _name;
-            }
-            set
-            {
-                _name = value;
-                OnPropertyChanged("Name");
-            }
-        }
+        public string Name { get; set; }
     }
 }

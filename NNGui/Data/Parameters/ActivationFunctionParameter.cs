@@ -17,6 +17,8 @@ namespace NNGui.Data.Parameters
 
     public enum ActivationFunction
     {
+        [Description("Sigmoid")]
+        sigmoid = 0,
         [Description("Exponential Linear Unit")]
         elu,
         [Description("Scaled Exponential Linear Unit")]
@@ -29,11 +31,11 @@ namespace NNGui.Data.Parameters
         relu,
         [Description("Tanh")]
         tanh,
-        [Description("Sigmoid")]
-        sigmoid = 0,
         [Description("Hard Sigmoid")]
         hard_sigmoid,
         [Description("Softmax")]
-        softmax
+        softmax,
+        [Description("Linear")]
+        linear
     }
 }

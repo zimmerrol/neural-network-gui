@@ -48,6 +48,8 @@ CActivationFunctionParameter::CActivationFunctionParameter(tinyxml2::XMLElement*
 		m_value = ActivationFunction::hard_sigmoid;
 	else if (!strcmp(type, "softmax"))
 		m_value = ActivationFunction::softmax;
+	else if (!strcmp(type, "linear"))
+		m_value = ActivationFunction::linear;
 	else
 		throw ProblemParserElementValueNotValid(XML_TAG_Value);
 }

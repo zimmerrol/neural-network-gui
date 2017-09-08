@@ -26,18 +26,20 @@ namespace NNGui.Data.Links
 
         public override string TypeName { get { return "1D Convolution Layer"; } }
 
-        public override void ValidateInputCompatibility()
+        public override bool IsInputCompatible
         {
-            LinkBase previousLink = GetPreviousLink();
-            if (previousLink == null)
+            get
             {
-                IsInputCompatible = false;
-                return;
+                LinkBase previousLink = GetPreviousLink();
+                if (previousLink == null)
+                {
+                    return false;
+                }
+
+                return (previousLink.GetTensorRank() == 2);
             }
-
-            IsInputCompatible = (previousLink.GetTensorRank() == 2);
         }
-
+        
         public override int? GetTensorRank()
         {
             return 2;

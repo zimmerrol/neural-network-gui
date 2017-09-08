@@ -24,34 +24,14 @@ namespace NNGui.Data.Links
     [XmlInclude(typeof(ReshapeLayer))]
     [XmlInclude(typeof(MergeLayer))]
     [Serializable]
-    public abstract class LinkBase : IDeserializationCallback, INotifyPropertyChanged
+    public abstract class LinkBase : IDeserializationCallback
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public abstract void ValidateInputCompatibility();
-
-        private bool _isInputCompatible;
         [XmlIgnore]
-        public bool IsInputCompatible
-        {
-            get
-            {
-                return _isInputCompatible;
-            }
-            set
-            {
-                _isInputCompatible = value;
-                OnPropertyChanged("IsInputCompatible");
-            }
-        }
+        public abstract bool IsInputCompatible { get; }
 
         protected LinkBase()
         {
-            Parameters = new ObservableCollection<ParameterBase>();
+            Parameters = new List<ParameterBase>();
 
             initializeID();
         }
@@ -72,58 +52,21 @@ namespace NNGui.Data.Links
             ID = Utility.GetHashString(DateTime.Now.ToFileTimeUtc().ToString() + Regex.Replace(TypeName, @"\s+", "")).Substring(0, 8);
         }
 
-        private Chain _parentChain;
         [XmlIgnore]
-        public Chain ParentChain
-        {
-            get
-            {
-                return _parentChain;
-            }
-            internal set
-            {
-                _parentChain = value;
-                OnPropertyChanged("ParentChain");
-            }
-        }
+        public Chain ParentChain { get; internal set; }
 
-        public ObservableCollection<ParameterBase> Parameters { get; }
+        public List<ParameterBase> Parameters { get; }
 
-        private string _name;
         [XmlAttribute]
-        public string Name
-        {
-            get
-            {
-                return _name;
-            }
-            set
-            {
-                _name = value;
-                OnPropertyChanged("Name");
-            }
-        }
+        public string Name { get; set; }
 
         [XmlAttribute]
         public virtual string TypeName { get; }
 
         public abstract int? GetTensorRank();
 
-
-        private string _id;
         [XmlAttribute]
-        public string ID
-        {
-            get
-            {
-                return _id;
-            }
-            set
-            {
-                _id = value;
-                OnPropertyChanged("ID");
-            }
-        }
+        public string ID { get; set; }
 
         public void OnDeserialization(object sender)
         {
@@ -140,29 +83,18 @@ namespace NNGui.Data.Links
                 return null;
             return ParentChain.ChainLinks[index - 1];
         }
-    }
 
-    public enum LinkType
-    {
-        [Description("Input Layer")]
-        InputLayer,
-        [Description("Activation Layer")]
-        ActivationLayer,
-        [Description("1D Convolution Layer")]
-        Convolution1DLayer,
-        [Description("2D Convolution Layer")]
-        Convolution2DLayer,
-        [Description("3D Convolution Layer")]
-        Convolution3DLayer,
-        [Description("Dense Layer")]
-        DenseLayer,
-        [Description("Dropout Layer")]
-        DropoutLayer,
-        [Description("Flatten Layer")]
-        FlattenLayer,
-        [Description("Reshape Layer")]
-        ReshapeLayer,
-        [Description("Merge Layer")]
-        MergeLayer,
+        public T GetParameterByName<T>(string name) where T : ParameterBase
+        {
+            foreach (var param in Parameters)
+            {
+                if (param.Name == name)
+                {
+                    return param as T;
+                }
+            }
+
+            return null;
+        }
     }
 }

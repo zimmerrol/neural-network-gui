@@ -17,7 +17,7 @@ using NNGui.Data.Optimizers;
 
 namespace NNGui.Data
 {
-    public class Problem : IDeserializationCallback, INotifyPropertyChanged
+    public class Problem : IDeserializationCallback
     {
         public Problem()
         {
@@ -30,7 +30,7 @@ namespace NNGui.Data
         //TODO: add support for this later
         //public List<OutputData> Outputs { get; set; }
         [XmlIgnore]
-        public ObservableCollection<LinkBase> RawOutput { get; set; } = new ObservableCollection<LinkBase>();
+        public List<LinkBase> RawOutput { get; set; } = new List<LinkBase>();
 
         [XmlIgnore]
         public InternalOutputDDHandler OutputDDHandler { get; set; }
@@ -96,7 +96,6 @@ namespace NNGui.Data
 
         public OptimizerSetting OptimizerSetting { get; set; }
 
-
         private OutputConfiguration _output = new OutputConfiguration();
         public OutputConfiguration Output
         {
@@ -113,16 +112,9 @@ namespace NNGui.Data
                     if (value.LinkConnection != null)
                         RawOutput.Add(value.LinkConnection.Target);
                 }
-                OnPropertyChanged("Output");
             }
         }
         public NetworkArchitecture NetworkArchitecture { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         public void Export()
         {
@@ -171,8 +163,6 @@ namespace NNGui.Data
 
                     foreach (var item in inputs)
                         result.Inputs.Add(item);
-
-                    result.NetworkArchitecture.ValidateInputCompatibility();
 
                     return result;
                 }

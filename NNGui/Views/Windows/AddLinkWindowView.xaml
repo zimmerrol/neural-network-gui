@@ -1,4 +1,4 @@
-﻿<Window x:Class="NNGui.Views.AddLayerWindow"
+﻿<Window x:Class="NNGui.Views.Windows.AddLinkWindowView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -37,8 +37,8 @@
                 <ColumnDefinition Width="50px"/>
             </Grid.ColumnDefinitions>
 
-            <Button Content="Cancel" Grid.Column="1" Click="CancelButton_Click"/>
-            <Button Content="Ok" Margin="5 0" Grid.Column="2" Click="OkButton_Click"/>
+            <Button Content="Cancel" Grid.Column="1" x:Name="Cancel"/>
+            <Button Content="Ok" Margin="5 0" Grid.Column="2" x:Name="Accept"/>
         </Grid>
     </StackPanel>
 </Window>

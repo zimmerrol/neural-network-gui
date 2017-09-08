@@ -11,7 +11,7 @@ using System.Xml.Serialization;
 
 namespace NNGui.Data
 {
-    public class OptimizerSetting : INotifyPropertyChanged
+    public class OptimizerSetting
     {
         private OptimizerSetting() { }
         public OptimizerSetting(OptimizerType value)
@@ -37,12 +37,6 @@ namespace NNGui.Data
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         private OptimizerType _value;
 
         [XmlIgnore]
@@ -61,7 +55,6 @@ namespace NNGui.Data
                 {
                     Optimizer = (OptimizerBase)Activator.CreateInstance(type);
                     Optimizer.InitializeParameters();
-                    OnPropertyChanged("Optimizer");
                 }
             }
         }

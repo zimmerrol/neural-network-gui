@@ -23,9 +23,18 @@ namespace NNGui.Data.Links
 
         public override string TypeName { get { return "Activation Layer"; } }
 
-        public override void ValidateInputCompatibility()
+        public override bool IsInputCompatible
         {
-            IsInputCompatible = true;
+            get
+            {
+                LinkBase previousLink = GetPreviousLink();
+                if (previousLink == null)
+                {
+                    return false;
+                }
+
+                return true;
+            }
         }
 
         public override int? GetTensorRank()

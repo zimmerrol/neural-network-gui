@@ -186,5 +186,7 @@ FunctionPtr CNTKWrapper::Internal::applyActivationFunction(FunctionPtr pInput, A
 		throw "not supported at the moment";
 	case ActivationFunction::tanh:
 		return CNTK::Tanh(pInput);
+	case ActivationFunction::linear:
+		return pInput;
 	}
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NNGui.Data.Optimizers
 {
-    public class OptimizerParameter<K, V> : INotifyPropertyChanged
+    public class OptimizerParameter<K, V>
     {
         public OptimizerParameter() { }
         public OptimizerParameter(K key, V value)
@@ -27,13 +27,7 @@ namespace NNGui.Data.Optimizers
             set
             {
                 _value = value;
-                OnPropertyChanged("Value");
             }
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

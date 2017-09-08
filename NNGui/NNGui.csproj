@@ -37,6 +37,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Caliburn.Micro, Version=3.0.3.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.Core.3.1.0\lib\net45\Caliburn.Micro.dll</HintPath>
+    </Reference>
+    <Reference Include="Caliburn.Micro.Platform, Version=3.0.3.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.3.1.0\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Caliburn.Micro.Platform.Core, Version=3.0.3.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.3.1.0\lib\net45\Caliburn.Micro.Platform.Core.dll</HintPath>
+    </Reference>
     <Reference Include="GongSolutions.Wpf.DragDrop, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\gong-wpf-dragdrop.1.1.0\lib\net46\GongSolutions.Wpf.DragDrop.dll</HintPath>
     </Reference>
@@ -44,6 +53,9 @@
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.3.1.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -62,11 +74,90 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Views\AddLayerWindow.xaml">
+    <Compile Include="Data\InputData.cs" />
+    <Compile Include="Data\Links\LinkType.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="ViewModels\Windows\AddLinkWindowViewModel.cs" />
+    <Compile Include="ViewModels\Optimizers\OptimizerParameterViewModel.cs" />
+    <Compile Include="ViewModels\OutputConfigurationViewModel.cs" />
+    <Compile Include="ViewModels\Parameters\ActivationFunctionParameterViewModel.cs" />
+    <Compile Include="ViewModels\Parameters\DoubleParameterViewModel.cs" />
+    <Compile Include="ViewModels\Parameters\InputDataParameterViewModel.cs" />
+    <Compile Include="ViewModels\Parameters\IntParameterViewModel.cs" />
+    <Compile Include="ViewModels\Parameters\IntTupleParameterViewModel.cs" />
+    <Compile Include="ViewModels\Parameters\LinkConnectionListParameterViewModel.cs" />
+    <Compile Include="ViewModels\LinkConnectionViewModel.cs" />
+    <Compile Include="ViewModels\Parameters\ParameterBaseViewModel.cs" />
+    <Compile Include="Views\ChainView.xaml.cs">
+      <DependentUpon>ChainView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Links\LinkBaseView.xaml.cs">
+      <DependentUpon>LinkBaseView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NetworkArchitectureView.xaml.cs">
+      <DependentUpon>NetworkArchitectureView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Optimizers\OptimizerParameterView.xaml.cs">
+      <DependentUpon>OptimizerParameterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Optimizers\OptimizerSettingView.xaml.cs">
+      <DependentUpon>OptimizerSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OutputConfigurationView.xaml.cs">
+      <DependentUpon>OutputConfigurationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Parameters\ActivationFunctionParameterView.xaml.cs">
+      <DependentUpon>ActivationFunctionParameterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Parameters\DoubleParameterView.xaml.cs">
+      <DependentUpon>DoubleParameterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Parameters\InputDataParameterView.xaml.cs">
+      <DependentUpon>InputDataParameterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InputDataView.xaml.cs">
+      <DependentUpon>InputDataView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Parameters\IntParameterView.xaml.cs">
+      <DependentUpon>IntParameterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Parameters\IntTuple1DParameterView.xaml.cs">
+      <DependentUpon>IntTuple1DParameterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Parameters\IntTuple2DParameterView.xaml.cs">
+      <DependentUpon>IntTuple2DParameterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Parameters\IntTuple3DParameterView.xaml.cs">
+      <DependentUpon>IntTuple3DParameterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Parameters\IntTuple4DParameterView.xaml.cs">
+      <DependentUpon>IntTuple4DParameterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Parameters\IntTupleBaseView.xaml.cs">
+      <DependentUpon>IntTupleBaseView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Parameters\LinkConnectionListParameterView.xaml.cs">
+      <DependentUpon>LinkConnectionListParameterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LinkConnectionView.xaml.cs">
+      <DependentUpon>LinkConnectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ProblemView.xaml.cs">
+      <DependentUpon>ProblemView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\Windows\AddLinkWindowView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MainWindow.xaml">
+    <Page Include="Views\ChainView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Links\LinkBaseView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\MainWindowView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -74,8 +165,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AppBootstrapper.cs" />
     <Compile Include="CommandHandler.cs" />
-    <Compile Include="Commands.cs" />
     <Compile Include="Converters\IntTupleConverter.cs" />
     <Compile Include="Converters\InvertedBooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
@@ -109,14 +200,89 @@
     <Compile Include="Data\Tuple.cs" />
     <Compile Include="TypeReferenceAttribute.cs" />
     <Compile Include="Utility.cs" />
-    <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="Views\AddLayerWindow.xaml.cs">
-      <DependentUpon>AddLayerWindow.xaml</DependentUpon>
+    <Compile Include="ViewModels\ChainViewModel.cs" />
+    <Compile Include="ViewModels\Links\LinkBaseViewModel.cs" />
+    <Compile Include="ViewModels\Windows\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\Windows\MainWindowViewModel2.cs" />
+    <Compile Include="ViewModels\NetworkArchitectureViewModel.cs" />
+    <Compile Include="ViewModels\Optimizers\OptimizerSettingViewModel.cs" />
+    <Compile Include="ViewModels\InputDataViewModel.cs" />
+    <Compile Include="ViewModels\ProblemViewModel.cs" />
+    <Compile Include="Views\Windows\AddLinkWindowView.xaml.cs">
+      <DependentUpon>AddLinkWindowView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="Views\Windows\MainWindowView.xaml.cs">
+      <DependentUpon>MainWindowView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\NetworkArchitectureView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Optimizers\OptimizerParameterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Optimizers\OptimizerSettingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OutputConfigurationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Parameters\ActivationFunctionParameterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Parameters\DoubleParameterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Parameters\InputDataParameterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InputDataView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Parameters\IntParameterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Parameters\IntTuple1DParameterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Parameters\IntTuple2DParameterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Parameters\IntTuple3DParameterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Parameters\IntTuple4DParameterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Parameters\IntTupleBaseView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Parameters\LinkConnectionListParameterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LinkConnectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ProblemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

@@ -23,9 +23,12 @@ namespace NNGui.Data.Links
 
         public override string TypeName { get { return "Input Layer"; } }
 
-        public override void ValidateInputCompatibility()
+        public override bool IsInputCompatible
         {
-            IsInputCompatible = true;
+            get
+            {
+                return true;
+            }
         }
 
         public override int? GetTensorRank()

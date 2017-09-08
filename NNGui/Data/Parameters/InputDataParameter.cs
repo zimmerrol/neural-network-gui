@@ -38,30 +38,4 @@ namespace NNGui.Data.Parameters
             }
         }
     }
-
-    public class InputData : IDeserializationCallback
-    {
-        private InputData() { }
-        public InputData(string id, string name, IntTupleBase shape, string description)
-        {
-            ID = id;
-            Name = name;
-            Shape = shape;
-            Description = description;
-        }
-
-        [XmlAttribute]
-        public string ID { get; set; }
-        [XmlAttribute]
-        public string Name { get; set; }
-
-        public IntTupleBase Shape { get; set; }
-        [XmlIgnore]
-        public string Description { get; set; }
-
-        public void OnDeserialization(object sender)
-        {
-            //throw new NotImplementedException();
-        }
-    }
 }

@@ -45,19 +45,6 @@ namespace NNGui.Data.Parameters
         }
         public ParameterBase(string name, LinkBase link) : base(name, link) { }
 
-        private T _value;
-        public T Value
-        {
-            get
-            {
-                return _value;
-            }
-            set
-            {
-                _value = value;
-                if (Parent != null)
-                    Parent.ParentChain.NetworkArchitecture.ValidateInputCompatibility();
-            }
-        }
+        public T Value { get; set; }
     }
 }
