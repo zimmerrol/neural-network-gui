@@ -26,27 +26,30 @@ namespace NNGui.Data.Links
 
         public override bool IsInputCompatible
         {
-            //now check, of we have to make this false again
-            var list = (Parameters[0] as LinkConnectionListParameter).Value;
-            if (list.Count > 0)
+            get
             {
-                //check the ranks
-                int? rawRank = list[0].Target.GetTensorRank();
-                if (!rawRank.HasValue)
+                //now check, of we have to make this false again
+                var list = (Parameters[0] as LinkConnectionListParameter).Value;
+                if (list.Count > 0)
                 {
-                    return false;
-                }
-                int rank = rawRank.Value;
-                for (int i = 1; i < list.Count; i++)
-                {
-                    if (!rawRank.Equals(list[i].Target.GetTensorRank()))
+                    //check the ranks
+                    int? rawRank = list[0].Target.GetTensorRank();
+                    if (!rawRank.HasValue)
                     {
                         return false;
                     }
+                    int rank = rawRank.Value;
+                    for (int i = 1; i < list.Count; i++)
+                    {
+                        if (!rawRank.Equals(list[i].Target.GetTensorRank()))
+                        {
+                            return false;
+                        }
+                    }
                 }
-            }
 
-            return true;
+                return true;
+            }
         }
 
         public override int? GetTensorRank()
