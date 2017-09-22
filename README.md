@@ -1,4 +1,4 @@
-# neural-network-gui
+# neural-network-gui (aka NNCreator)
 A lightweight GUI to create neural network architectures which can be used in popular deep learning frameworks.
 
 # Structure
